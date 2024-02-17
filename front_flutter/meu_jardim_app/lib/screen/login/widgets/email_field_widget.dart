@@ -14,7 +14,6 @@ class EmailFieldLoginWidget extends GetView<LoginController> {
         borderRadius: BorderRadius.circular(5),
       ),
       child: TextField(
-        autofocus: true,
         style: GoogleFonts.montserrat(
           fontSize: 14,
           fontWeight: FontWeight.w400,
