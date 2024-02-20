@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meu_jardim_app/view/register/widgets/textfield_name_register_widget.dart';
 
-import 'widgets/textfield_email_register_widget.dart';
-import 'widgets/button_register_widget.dart';
-import 'widgets/textfield_password_register_widget.dart';
+import '../../controller/register_controller.dart';
+import 'register_widget.dart';
+
+class RegisterBindings extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => RegisterController());
+  }
+}
 
 class RegisterView extends StatelessWidget {
-  RegisterView({super.key});
+  RegisterView({super.key}) {
+    Get.put(RegisterController());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,25 +29,7 @@ class RegisterView extends StatelessWidget {
           ),
         ),
       ),
-      body: _body(),
-    );
-  }
-
-  Widget _body() {
-    return Container(
-      padding: const EdgeInsets.all(25),
-      child: ListView(
-        children: [
-          const SizedBox(height: 15),
-          const TextFieldNameRegisterWirdget(),
-          const SizedBox(height: 15),
-          const TextFieldEmailRegisterWidget(),
-          const SizedBox(height: 15),
-          const TextFieldPasswordRegisterWidget(),
-          const SizedBox(height: 25),
-          const ButtonRegisterWidget(),
-        ],
-      ),
+      body: RegisterWidget(),
     );
   }
 }

@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 import 'view/add_farming/add_farming_view.dart';
-import 'view/login/login_bindings.dart';
+import 'view/login/login_view.dart';
 import 'view/more_menu/more_view.dart';
 import 'view/splash/splash_view.dart';
 
