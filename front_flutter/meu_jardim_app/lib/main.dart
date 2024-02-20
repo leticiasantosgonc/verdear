@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meu_jardim_app/screen/home/home_screen.dart';
+import 'package:meu_jardim_app/view/home/home_view.dart';
 import 'package:meu_jardim_app/utils/color_schemes.g.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-import 'screen/add_cultivo/add_cultivo_screen.dart';
-import 'screen/login/login_bindings.dart';
-import 'screen/mais_menu/mais_screen.dart';
-import 'screen/splash/splash_screen.dart';
+import 'view/add_farming/add_farming_view.dart';
+import 'view/login/login_bindings.dart';
+import 'view/more_menu/more_view.dart';
+import 'view/splash/splash_view.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -21,11 +27,11 @@ class MyApp extends StatelessWidget {
       initialBinding: LoginBindings(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData.from(colorScheme: theme),
-      home: const SplashScreen(),
+      home: const SplashView(),
       routes: {
-        '/home': (context) => HomeScreen(),
-        '/mais': (context) => MaisScreen(),
-        '/add': (context) => AddPlantaScreen(),
+        '/home': (context) => HomeView(),
+        '/mais': (context) => MoreView(),
+        '/add': (context) => AddFarmingView(),
       },
     );
   }
