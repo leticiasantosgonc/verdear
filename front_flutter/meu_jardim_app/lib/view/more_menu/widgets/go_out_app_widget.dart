@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meu_jardim_app/service/autentication_service.dart';
 
 class GoOutAppWidget extends StatelessWidget {
   const GoOutAppWidget({super.key});
@@ -130,7 +131,9 @@ Future _showBottomSair(context) {
                     SizedBox(
                       width: 150,
                       child: TextButton(
-                        onPressed: () => Get.back(),
+                        onPressed: () {
+                          AutenticationService().logOut();
+                        },
                         style: TextButton.styleFrom(
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,

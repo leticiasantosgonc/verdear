@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class AccountCreationWidget extends StatelessWidget {
   const AccountCreationWidget({super.key});
@@ -39,7 +41,7 @@ class AccountCreationWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Outubro de 2023',
+                    formatarData(),
                     style: GoogleFonts.montserrat(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -53,4 +55,19 @@ class AccountCreationWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+String formatarData() {
+  if (FirebaseAuth.instance.currentUser == null) {
+    return 'Usuário não logado';
+  }
+  if (FirebaseAuth.instance.currentUser!.metadata.creationTime == null) {
+    return 'Data não encontrada';
+  }
+  String date =
+      FirebaseAuth.instance.currentUser!.metadata.creationTime.toString();
+
+  String dateFinal = DateFormat('dd/MM/yyyy').format(DateTime.parse(date));
+
+  return dateFinal;
 }

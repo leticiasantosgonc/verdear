@@ -3,11 +3,14 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../controller/add_farming_controller.dart';
-
-class AddFarmingWidget extends GetView<AddFarmingController> {
+class AddFarmingWidget extends StatefulWidget {
   const AddFarmingWidget({super.key});
 
+  @override
+  State<AddFarmingWidget> createState() => _AddFarmingWidgetState();
+}
+
+class _AddFarmingWidgetState extends State<AddFarmingWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(

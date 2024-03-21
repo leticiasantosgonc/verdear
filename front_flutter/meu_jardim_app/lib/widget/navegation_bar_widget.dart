@@ -1,60 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:get/get.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:meu_jardim_app/view/add_farming/add_farming_view.dart';
+import 'package:meu_jardim_app/view/home/home_view.dart';
+import 'package:meu_jardim_app/view/more_menu/more_view.dart';
 
-class BottomNavigationBarWidget extends StatelessWidget {
+class BottomNavigationBarWidget extends StatefulWidget {
   const BottomNavigationBarWidget({super.key});
 
   @override
+  State<BottomNavigationBarWidget> createState() =>
+      _BottomNavigationBarWidgetState();
+}
+
+class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
+  int currentPageIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-        child: GNav(
-          backgroundColor: Colors.white,
-          color: Theme.of(context).colorScheme.outlineVariant,
-          activeColor: Theme.of(context).colorScheme.primary,
-          tabBackgroundColor: Theme.of(context).colorScheme.background,
-          padding: EdgeInsets.all(8),
-          gap: 8,
-          onTabChange: (value) => print(value),
-          tabs: [
-            GButton(
-              icon: PhosphorIcons.flower_thin,
-              text: 'Jardim',
-              onPressed: () {
-                Future.delayed(Duration(milliseconds: 500), () {
-                  Get.toNamed('/home');
-                });
-              },
-            ),
-            GButton(
-              icon: PhosphorIcons.plus_circle,
-              text: 'Adicionar',
-              onPressed: () {
-                Future.delayed(Duration(milliseconds: 500), () {
-                  Get.toNamed('/add');
-                });
-              },
-            ),
-            GButton(
-              icon: PhosphorIcons.heart,
-              text: 'Favoritos',
-            ),
-            GButton(
-              icon: PhosphorIcons.list,
-              text: 'Mais',
-              onPressed: () {
-                Future.delayed(Duration(milliseconds: 500), () {
-                  Get.toNamed('/mais');
-                });
-              },
-            ),
-          ],
-        ),
+    return Scaffold(
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        backgroundColor: Theme.of(context).colorScheme.onTertiary,
+        indicatorColor: Theme.of(context).colorScheme.onTertiary,
+        selectedIndex: currentPageIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(PhosphorIcons.flower_fill),
+            icon: Icon(PhosphorIcons.flower_thin),
+            label: 'Jardim',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(PhosphorIcons.plus_circle_fill),
+            icon: Icon(PhosphorIcons.plus_circle),
+            label: 'Adicionar',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(PhosphorIcons.heart_fill),
+            icon: Icon(PhosphorIcons.heart),
+            label: 'Favoritos',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(PhosphorIcons.list_fill),
+            icon: Icon(PhosphorIcons.list),
+            label: 'Mais',
+          ),
+        ],
       ),
+      // body: <Widget>[][currentPageIndex],
     );
   }
 }

@@ -49,7 +49,6 @@ Future _showInfoApp(context) {
   return showModalBottomSheet(
     context: context,
     builder: (context) => Container(
-      height: 400,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
