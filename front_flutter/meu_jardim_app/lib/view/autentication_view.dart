@@ -4,6 +4,7 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meu_jardim_app/service/autentication_service.dart';
+import 'package:meu_jardim_app/view/reset_password_view.dart';
 
 class AutenticationView extends StatelessWidget {
   AutenticationView({super.key});
@@ -25,6 +26,8 @@ class AutenticationWidget extends StatefulWidget {
 
 class _AutenticationWidgetState extends State<AutenticationWidget> {
   bool goSing = true;
+  bool obscureText = true;
+  IconData icon = PhosphorIcons.eye;
   final formKey = GlobalKey<FormState>();
 
   TextEditingController emailInput = TextEditingController();
@@ -42,7 +45,9 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
         children: [
           const SizedBox(height: 50),
           Image.asset(
-            'lib/assets/logo_dark.png',
+            Theme.of(context).brightness == Brightness.light
+                ? 'lib/assets/logo_dark.png'
+                : 'lib/assets/logo_light.png',
           ),
           const SizedBox(height: 50),
           Form(
@@ -50,7 +55,6 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
             child: Column(
               children: [
                 Container(
-                  color: Colors.white,
                   child: TextFormField(
                     validator: (value) => validateEmail(),
                     style: GoogleFonts.montserrat(
@@ -71,23 +75,37 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
                 ),
                 const SizedBox(height: 15),
                 Container(
-                  color: Colors.white,
                   child: TextFormField(
                     validator: (value) => validatePassword(),
-                    obscureText: true,
+                    obscureText: obscureText,
                     style: GoogleFonts.montserrat(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                     controller: passwordInput,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Senha',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(5),
                         ),
                       ),
-                      suffixIcon: Icon(PhosphorIcons.eye),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          if (obscureText == true) {
+                            setState(() {
+                              obscureText = false;
+                              icon = PhosphorIcons.eye;
+                            });
+                          } else {
+                            setState(() {
+                              obscureText = true;
+                              icon = PhosphorIcons.eye_slash;
+                            });
+                          }
+                        },
+                        icon: Icon(icon),
+                      ),
                     ),
                   ),
                 ),
@@ -96,29 +114,42 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
                   child: Column(
                     children: [
                       Container(
-                        color: Colors.white,
                         child: TextFormField(
                           validator: (value) => validateConfirmPassword(),
-                          obscureText: true,
+                          obscureText: obscureText,
                           style: GoogleFonts.montserrat(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
                           controller: confirmPasswordInput,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Confirme a senha',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(5),
                               ),
                             ),
-                            suffixIcon: Icon(PhosphorIcons.eye),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                if (obscureText == true) {
+                                  setState(() {
+                                    obscureText = false;
+                                    icon = PhosphorIcons.eye;
+                                  });
+                                } else {
+                                  setState(() {
+                                    obscureText = true;
+                                    icon = PhosphorIcons.eye_slash;
+                                  });
+                                }
+                              },
+                              icon: Icon(icon),
+                            ),
                           ),
                         ),
                       ),
                       const SizedBox(height: 15),
                       Container(
-                        color: Colors.white,
                         child: TextFormField(
                           validator: (String? value) => validateName(),
                           style: GoogleFonts.montserrat(
@@ -166,7 +197,21 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
               ],
             ),
           ),
-          const SizedBox(height: 50),
+          const SizedBox(height: 20),
+          InkWell(
+            onTap: () {
+              Get.to(ResetPasswordView());
+            },
+            child: Text(
+              textAlign: TextAlign.right,
+              'Esqueceu a senha?',
+              style: GoogleFonts.montserrat(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
           const Divider(),
           const SizedBox(height: 10),
           Row(
@@ -193,7 +238,6 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
                   style: GoogleFonts.montserrat(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ),

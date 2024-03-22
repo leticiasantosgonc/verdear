@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:meu_jardim_app/view/home/home_view.dart';
+import 'package:meu_jardim_app/view/navigation_view.dart';
 import 'package:meu_jardim_app/utils/color_schemes.g.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -25,14 +25,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.from(colorScheme: theme),
+      themeMode: ThemeMode.system,
+      darkTheme: ThemeData.from(colorScheme: darkTheme),
+      theme: ThemeData.from(colorScheme: lightTheme),
       home: RouteView(),
-      routes: {
-        '/autentication': (context) => AutenticationView(),
-        '/home': (context) => HomeView(),
-        '/mais': (context) => MoreView(),
-        '/add': (context) => AddFarmingView(),
-      },
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meu_jardim_app/main.dart';
+import 'package:meu_jardim_app/service/autentication_service.dart';
 
 class DeleteAccountWidget extends StatelessWidget {
   const DeleteAccountWidget({super.key});
@@ -12,7 +14,7 @@ class DeleteAccountWidget extends StatelessWidget {
       child: Container(
         height: 80,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
               color: Theme.of(context).colorScheme.outlineVariant,
@@ -29,7 +31,7 @@ class DeleteAccountWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(width: 165),
+            const SizedBox(width: 152),
             Icon(
               PhosphorIcons.caret_right,
               color: Theme.of(context).colorScheme.outlineVariant,
@@ -51,7 +53,7 @@ Future _showBottomExcluir(context) {
     builder: (context) => Container(
       height: 350,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
@@ -111,7 +113,8 @@ Future _showBottomExcluir(context) {
                       child: TextButton(
                         onPressed: () => Get.back(),
                         style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
                           side: BorderSide(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -135,7 +138,10 @@ Future _showBottomExcluir(context) {
                     SizedBox(
                       width: 150,
                       child: TextButton(
-                        onPressed: () => Get.back(),
+                        onPressed: () {
+                          AutenticationService().deleteAccount();
+                          Get.close(0);
+                        },
                         style: TextButton.styleFrom(
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,

@@ -32,7 +32,7 @@ class _AddFarmingWidgetState extends State<AddFarmingWidget> {
                         height: 100,
                         width: 100,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.background,
                           borderRadius: BorderRadius.circular(5),
                           border: Border.all(
                             color: Theme.of(context).colorScheme.outlineVariant,
@@ -41,9 +41,10 @@ class _AddFarmingWidgetState extends State<AddFarmingWidget> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(PhosphorIcons.plus_bold,
-                                size: 35,
-                                color: Theme.of(context).colorScheme.primary),
+                            Icon(
+                              PhosphorIcons.plus_bold,
+                              size: 35,
+                            ),
                           ],
                         ),
                       ),
@@ -56,7 +57,7 @@ class _AddFarmingWidgetState extends State<AddFarmingWidget> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.background,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: TextField(
@@ -77,7 +78,7 @@ class _AddFarmingWidgetState extends State<AddFarmingWidget> {
                     const SizedBox(height: 10),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.background,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: TextField(
@@ -103,7 +104,7 @@ class _AddFarmingWidgetState extends State<AddFarmingWidget> {
           const SizedBox(height: 10),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.background,
               borderRadius: BorderRadius.circular(5),
             ),
             child: TextField(
@@ -126,7 +127,7 @@ class _AddFarmingWidgetState extends State<AddFarmingWidget> {
           const SizedBox(height: 10),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.background,
               borderRadius: BorderRadius.circular(5),
             ),
             child: TextField(
@@ -152,7 +153,7 @@ class _AddFarmingWidgetState extends State<AddFarmingWidget> {
           const SizedBox(height: 10),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.background,
               borderRadius: BorderRadius.circular(5),
             ),
             child: TextField(
@@ -357,9 +358,9 @@ class _AddFarmingWidgetState extends State<AddFarmingWidget> {
               SizedBox(
                 width: 150,
                 child: TextButton(
-                  onPressed: () => Get.back(),
+                  onPressed: () => Get.back,
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Theme.of(context).colorScheme.background,
                     side: BorderSide(
                       color: Theme.of(context).colorScheme.primary,
                     ),

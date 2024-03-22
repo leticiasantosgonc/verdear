@@ -41,4 +41,14 @@ class AutenticationService {
   Future<void> logOut() async {
     return _auth.signOut();
   }
+
+  Future<void> resetPassword(String email) async {
+    return _auth.sendPasswordResetEmail(email: email);
+  }
+
+  Future<void> deleteAccount() async {
+    await _auth.currentUser!.delete();
+
+    return logOut();
+  }
 }

@@ -12,7 +12,7 @@ class AssessAppWidget extends StatelessWidget {
       child: Container(
         height: 80,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
               color: Theme.of(context).colorScheme.outlineVariant,
@@ -29,7 +29,7 @@ class AssessAppWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(width: 168),
+            const SizedBox(width: 156),
             Icon(
               PhosphorIcons.caret_right,
               color: Theme.of(context).colorScheme.outlineVariant,
@@ -50,7 +50,7 @@ Future _showBottomAvalie(context) {
     context: context,
     builder: (context) => Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
@@ -106,7 +106,8 @@ Future _showBottomAvalie(context) {
                       child: TextButton(
                         onPressed: () => Get.back(),
                         style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
                           side: BorderSide(
                             color: Theme.of(context).colorScheme.primary,
                           ),

@@ -5,7 +5,6 @@ import 'package:meu_jardim_app/view/more_menu/widgets/account_creation_widget.da
 import 'package:meu_jardim_app/view/more_menu/widgets/information_app_widget.dart';
 import 'package:meu_jardim_app/view/more_menu/widgets/go_out_app_widget.dart';
 import 'package:meu_jardim_app/view/more_menu/widgets/version_app_widget.dart';
-import 'package:meu_jardim_app/widget/navegation_bar_widget.dart';
 
 import 'widgets/delete_account_widget.dart';
 
@@ -16,6 +15,7 @@ class MoreView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.onSecondary,
         title: Text(
           'Mais',
           style: GoogleFonts.montserrat(
@@ -25,7 +25,6 @@ class MoreView extends StatelessWidget {
         ),
       ),
       body: _body(),
-      bottomNavigationBar: BottomNavigationBarWidget(),
     );
   }
 

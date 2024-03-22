@@ -13,7 +13,7 @@ class GoOutAppWidget extends StatelessWidget {
       child: Container(
         height: 80,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
               color: Theme.of(context).colorScheme.outlineVariant,
@@ -52,7 +52,7 @@ Future _showBottomSair(context) {
     builder: (context) => Container(
       height: 350,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
@@ -107,7 +107,8 @@ Future _showBottomSair(context) {
                       child: TextButton(
                         onPressed: () => Get.back(),
                         style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
                           side: BorderSide(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -133,6 +134,7 @@ Future _showBottomSair(context) {
                       child: TextButton(
                         onPressed: () {
                           AutenticationService().logOut();
+                          Get.close(0);
                         },
                         style: TextButton.styleFrom(
                           backgroundColor:

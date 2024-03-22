@@ -13,7 +13,7 @@ class AccountCreationWidget extends StatelessWidget {
       child: Container(
         height: 80,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
               color: Theme.of(context).colorScheme.outlineVariant,

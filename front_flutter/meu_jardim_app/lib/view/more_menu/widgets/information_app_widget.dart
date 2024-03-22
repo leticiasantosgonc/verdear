@@ -12,7 +12,7 @@ class InformationAppWidget extends StatelessWidget {
       child: Container(
         height: 80,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
               color: Theme.of(context).colorScheme.outlineVariant,
@@ -29,7 +29,7 @@ class InformationAppWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(width: 112),
+            const SizedBox(width: 100),
             Icon(
               PhosphorIcons.caret_right,
               color: Theme.of(context).colorScheme.outlineVariant,
@@ -50,7 +50,7 @@ Future _showInfoApp(context) {
     context: context,
     builder: (context) => Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
