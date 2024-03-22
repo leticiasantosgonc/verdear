@@ -6,9 +6,7 @@ import 'package:meu_jardim_app/utils/color_schemes.g.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-import 'view/add_farming/add_farming_view.dart';
 import 'view/autentication_view.dart';
-import 'view/more_menu/more_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

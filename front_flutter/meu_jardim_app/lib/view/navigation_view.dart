@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:meu_jardim_app/view/add_farming/add_farming_view.dart';
+import 'package:meu_jardim_app/view/add_farming_view.dart';
 import 'package:meu_jardim_app/view/garden_view.dart';
+import 'package:meu_jardim_app/view/house_view.dart';
 import 'package:meu_jardim_app/view/more_menu/more_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -25,8 +26,10 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         controller: controller,
         children: [
+          HouseView(),
           GardenView(),
           AddFarmingView(),
           Text('Favoritos'),
@@ -39,10 +42,19 @@ class _HomeViewState extends State<HomeView> {
         },
       ),
       bottomNavigationBar: Theme(
-        data: ThemeData(canvasColor: Theme.of(context).colorScheme.onSecondary),
+        data: ThemeData(
+          canvasColor: Theme.of(context).brightness == Brightness.dark
+              ? Theme.of(context).colorScheme.surface
+              : Theme.of(context).colorScheme.primary,
+        ),
         child: BottomNavigationBar(
           currentIndex: pageIndex,
           items: [
+            BottomNavigationBarItem(
+              activeIcon: Icon(PhosphorIcons.house_fill),
+              icon: Icon(PhosphorIcons.house_thin),
+              label: 'Inicio',
+            ),
             BottomNavigationBarItem(
               activeIcon: Icon(PhosphorIcons.flower_fill),
               icon: Icon(PhosphorIcons.flower_thin),
@@ -68,8 +80,8 @@ class _HomeViewState extends State<HomeView> {
             setState(() {
               controller.animateToPage(
                 index,
-                duration: Duration(milliseconds: 400),
-                curve: Curves.ease,
+                duration: Duration(milliseconds: 1),
+                curve: Curves.linear,
               );
             });
           },

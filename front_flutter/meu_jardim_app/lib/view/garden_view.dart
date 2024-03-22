@@ -10,6 +10,16 @@ class GardenView extends StatefulWidget {
 class _GardenViewState extends State<GardenView> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: _body(),
+    );
+  }
+
+  Widget _body() {
+    return Column(
+      children: [
+        Text('Jardim'),
+      ],
+    );
   }
 }

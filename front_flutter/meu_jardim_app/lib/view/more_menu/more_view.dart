@@ -15,12 +15,15 @@ class MoreView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.onSecondary,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Theme.of(context).colorScheme.surface
+            : Theme.of(context).colorScheme.primary,
         title: Text(
           'Mais',
           style: GoogleFonts.montserrat(
             fontSize: 18,
             fontWeight: FontWeight.w600,
+            color: Colors.white,
           ),
         ),
       ),

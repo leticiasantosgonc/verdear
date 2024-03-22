@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meu_jardim_app/main.dart';
 import 'package:meu_jardim_app/service/autentication_service.dart';
 
 class DeleteAccountWidget extends StatelessWidget {

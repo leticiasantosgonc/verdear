@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meu_jardim_app/main.dart';
@@ -19,22 +18,39 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.onSecondary,
-          title: Text(
-            'Nova senha',
-            style: GoogleFonts.montserrat(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? Theme.of(context).colorScheme.surface
+              : Theme.of(context).colorScheme.primary,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Nova senha',
+                style: GoogleFonts.montserrat(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+              InkWell(
+                  onTap: () => _infoResetPass(context),
+                  child:
+                      Icon(PhosphorIcons.info, color: Colors.white, size: 20))
+            ],
           ),
         ),
         body: ListView(
           padding: const EdgeInsets.all(25),
           children: <Widget>[
-            Image.asset(
-              'lib/assets/no_plants.png',
-            ),
             const SizedBox(height: 20),
+            Container(
+              height: 200,
+              child: Image.asset(
+                'lib/assets/password.gif',
+              ),
+            ),
+            const SizedBox(height: 50),
             Text(
               textAlign: TextAlign.center,
               'Não se preocupe, vamos recuperar o seu acesso. Seus cultivos esperam por você!',
@@ -92,5 +108,97 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
     Get.snackbar('Redefinição de senha',
         'Email enviado com sucesso, olhe sua caixa de entrada!',
         backgroundColor: Colors.green, colorText: Colors.white);
+  }
+
+  Future _infoResetPass(context) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: 400,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.background,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              InkWell(
+                onTap: () => Get.back(),
+                child: Icon(
+                  PhosphorIcons.x,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  size: 18,
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 8),
+                  Icon(
+                    PhosphorIcons.info,
+                    size: 70,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    'Precisa de ajuda?',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    'Insira seu email cadastrado no campo solicitado. Você receberá na sua caixa de entrada do email, um link para redefinir a senha. 😃',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(width: 10),
+                      SizedBox(
+                        width: 150,
+                        child: TextButton(
+                          onPressed: () => Get.back(),
+                          style: TextButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            padding: const EdgeInsets.all(15),
+                          ),
+                          child: Text(
+                            textAlign: TextAlign.start,
+                            'CONCLUIR',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
