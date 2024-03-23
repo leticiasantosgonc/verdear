@@ -105,9 +105,13 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
   }
 
   void sendEmail() {
-    Get.snackbar('Redefinição de senha',
-        'Email enviado com sucesso, olhe sua caixa de entrada!',
-        backgroundColor: Colors.green, colorText: Colors.white);
+    Get.snackbar(
+      'Redefinição de senha',
+      'Email enviado com sucesso, olhe sua caixa de entrada!',
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+    );
   }
 
   Future _infoResetPass(context) {
