@@ -18,10 +18,21 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
+          ),
           backgroundColor: Theme.of(context).brightness == Brightness.dark
-              ? Theme.of(context).colorScheme.surface
-              : Theme.of(context).colorScheme.primary,
+              ? Theme.of(context).colorScheme.background
+              : Theme.of(context).colorScheme.background,
+          surfaceTintColor: Theme.of(context).brightness == Brightness.dark
+              ? Theme.of(context).colorScheme.background
+              : Theme.of(context).colorScheme.background,
+          scrolledUnderElevation: 1,
+          shadowColor: Theme.of(context).brightness == Brightness.dark
+              ? Colors.black
+              : Colors.grey[200],
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -30,7 +41,9 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 style: GoogleFonts.montserrat(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
               ),
               InkWell(
@@ -53,7 +66,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
             const SizedBox(height: 50),
             Text(
               textAlign: TextAlign.center,
-              'Não se preocupe, vamos recuperar o seu acesso. Seus cultivos esperam por você!',
+              'Não se preocupe, vamos recuperar o seu acesso. Seus plantios esperam por você! 🌱',
               style: GoogleFonts.montserrat(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
@@ -118,7 +131,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
     return showModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: 400,
+        height: 350,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.only(
@@ -146,14 +159,14 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   const SizedBox(height: 8),
                   Icon(
                     PhosphorIcons.info,
-                    size: 70,
+                    size: 50,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   const SizedBox(height: 15),
                   Text(
                     'Precisa de ajuda?',
                     style: GoogleFonts.montserrat(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -162,7 +175,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     'Insira seu email cadastrado no campo solicitado. Você receberá na sua caixa de entrada do email, um link para redefinir a senha. 😃',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.montserrat(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -173,7 +186,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     children: [
                       SizedBox(width: 10),
                       SizedBox(
-                        width: 150,
+                        width: 120,
                         child: TextButton(
                           onPressed: () => Get.back(),
                           style: TextButton.styleFrom(
@@ -188,7 +201,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                             textAlign: TextAlign.start,
                             'CONCLUIR',
                             style: GoogleFonts.montserrat(
-                              fontSize: 18,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
                             ),

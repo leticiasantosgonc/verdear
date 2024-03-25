@@ -76,14 +76,14 @@ Future _showBottomAvalie(context) {
                 const SizedBox(height: 8),
                 Icon(
                   PhosphorIcons.thumbs_up_fill,
-                  size: 70,
+                  size: 50,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(height: 15),
                 Text(
                   'Gostou do app?',
                   style: GoogleFonts.montserrat(
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -92,7 +92,7 @@ Future _showBottomAvalie(context) {
                   'Sua avaliação é muito importante para que o app continue melhorando. 😃',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.montserrat(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -102,7 +102,7 @@ Future _showBottomAvalie(context) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 150,
+                      width: 120,
                       child: TextButton(
                         onPressed: () => Get.back(),
                         style: TextButton.styleFrom(
@@ -120,7 +120,7 @@ Future _showBottomAvalie(context) {
                           textAlign: TextAlign.start,
                           'CANCELAR',
                           style: GoogleFonts.montserrat(
-                            fontSize: 18,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -129,7 +129,7 @@ Future _showBottomAvalie(context) {
                     ),
                     SizedBox(width: 10),
                     SizedBox(
-                      width: 150,
+                      width: 120,
                       child: TextButton(
                         onPressed: () => Get.back(),
                         style: TextButton.styleFrom(
@@ -144,7 +144,7 @@ Future _showBottomAvalie(context) {
                           textAlign: TextAlign.start,
                           'ENVIAR',
                           style: GoogleFonts.montserrat(
-                            fontSize: 18,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
                           ),

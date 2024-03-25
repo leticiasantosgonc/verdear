@@ -344,7 +344,7 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
   void _showSnackSucess(BuildContext context) {
     Get.snackbar(
       'Bem vindo(a) ao meu jardim!',
-      'Agora você pode acompanhar o crescimento dos seus cultivos. 🌱',
+      'Agora você pode acompanhar o crescimento dos seus plantios. 🌱',
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.green,
       colorText: Colors.white,

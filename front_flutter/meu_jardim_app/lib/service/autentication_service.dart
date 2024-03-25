@@ -51,4 +51,8 @@ class AutenticationService {
 
     return logOut();
   }
+
+  String getCurrentUserID() {
+    return _auth.currentUser!.uid;
+  }
 }

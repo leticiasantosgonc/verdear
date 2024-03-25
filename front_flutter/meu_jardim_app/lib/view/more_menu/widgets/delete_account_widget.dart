@@ -50,7 +50,7 @@ Future _showBottomExcluir(context) {
   return showModalBottomSheet(
     context: context,
     builder: (context) => Container(
-      height: 350,
+      height: 300,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.only(
@@ -77,14 +77,14 @@ Future _showBottomExcluir(context) {
                 const SizedBox(height: 8),
                 Icon(
                   PhosphorIcons.trash_fill,
-                  size: 70,
+                  size: 50,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(height: 15),
                 Text(
                   'Excluir conta',
                   style: GoogleFonts.montserrat(
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -92,14 +92,14 @@ Future _showBottomExcluir(context) {
                 Text(
                   'Deseja realmente excluir sua conta?',
                   style: GoogleFonts.montserrat(
-                    fontSize: 16,
+                    fontSize: 14,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Seus cultivos merecem cuidados. 🥀',
+                  'Seus plantios merecem cuidados. 🥀',
                   style: GoogleFonts.montserrat(
-                    fontSize: 16,
+                    fontSize: 14,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -108,7 +108,7 @@ Future _showBottomExcluir(context) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 150,
+                      width: 120,
                       child: TextButton(
                         onPressed: () => Get.back(),
                         style: TextButton.styleFrom(
@@ -126,7 +126,7 @@ Future _showBottomExcluir(context) {
                           textAlign: TextAlign.start,
                           'CANCELAR',
                           style: GoogleFonts.montserrat(
-                            fontSize: 18,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -135,7 +135,7 @@ Future _showBottomExcluir(context) {
                     ),
                     SizedBox(width: 10),
                     SizedBox(
-                      width: 150,
+                      width: 120,
                       child: TextButton(
                         onPressed: () {
                           AutenticationService().deleteAccount();
@@ -153,7 +153,7 @@ Future _showBottomExcluir(context) {
                           textAlign: TextAlign.start,
                           'EXCLUIR',
                           style: GoogleFonts.montserrat(
-                            fontSize: 18,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
                           ),

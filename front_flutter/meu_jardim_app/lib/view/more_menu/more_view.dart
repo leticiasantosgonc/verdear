@@ -16,15 +16,23 @@ class MoreView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? Theme.of(context).colorScheme.surface
-            : Theme.of(context).colorScheme.primary,
+            ? Theme.of(context).colorScheme.background
+            : Theme.of(context).colorScheme.background,
+        surfaceTintColor: Theme.of(context).brightness == Brightness.dark
+            ? Theme.of(context).colorScheme.background
+            : Theme.of(context).colorScheme.background,
+        scrolledUnderElevation: 1,
+        shadowColor: Theme.of(context).brightness == Brightness.dark
+            ? Colors.black
+            : Colors.grey[200],
         title: Text(
           'Mais',
           style: GoogleFonts.montserrat(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black),
         ),
       ),
       body: _body(),
@@ -36,7 +44,6 @@ class MoreView extends StatelessWidget {
       padding: const EdgeInsets.all(25),
       child: ListView(
         children: [
-          const SizedBox(height: 10),
           Text(
             'Sua conta',
             style: GoogleFonts.montserrat(

@@ -49,6 +49,7 @@ Future _showInfoApp(context) {
   return showModalBottomSheet(
     context: context,
     builder: (context) => Container(
+      height: 350,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.only(
@@ -75,35 +76,28 @@ Future _showInfoApp(context) {
                 const SizedBox(height: 8),
                 Icon(
                   PhosphorIcons.flower_fill,
-                  size: 70,
+                  size: 50,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(height: 15),
                 Text(
                   'Informações do app',
                   style: GoogleFonts.montserrat(
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  'O meu jardim é um aplicativo para auxiliar na rotina das suas plantinhas. Aqui você consegue armazenar informações necessárias sobre cada cultivo.',
+                  'O meu jardim é um aplicativo para auxiliar na rotina das suas plantinhas. Aqui você consegue armazenar informações necessárias sobre cada plantio.',
                   style: GoogleFonts.montserrat(
-                    fontSize: 16,
+                    fontSize: 14,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 5),
-                Text(
-                  'Esse aplicativo também é um trabalho de conclusão de curso. ♥',
-                  style: GoogleFonts.montserrat(
-                    fontSize: 16,
-                  ),
-                ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  width: 150,
+                  width: 120,
                   child: TextButton(
                     onPressed: () => Get.back(),
                     style: TextButton.styleFrom(
@@ -117,7 +111,7 @@ Future _showInfoApp(context) {
                       textAlign: TextAlign.start,
                       'CONCLUIR',
                       style: GoogleFonts.montserrat(
-                        fontSize: 18,
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                       ),

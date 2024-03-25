@@ -46,6 +46,12 @@ class _HomeViewState extends State<HomeView> {
               : Theme.of(context).colorScheme.primary,
         ),
         child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          iconSize: 30,
+          selectedFontSize: 8,
+          unselectedFontSize: 8,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white,
           currentIndex: pageIndex,
           items: [
             BottomNavigationBarItem(

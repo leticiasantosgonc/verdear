@@ -50,7 +50,7 @@ Future _showBottomSair(context) {
   return showModalBottomSheet(
     context: context,
     builder: (context) => Container(
-      height: 350,
+      height: 300,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.only(
@@ -77,22 +77,22 @@ Future _showBottomSair(context) {
                 const SizedBox(height: 8),
                 Icon(
                   PhosphorIcons.sign_out,
-                  size: 70,
+                  size: 50,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(height: 15),
                 Text(
                   'Sair do app?',
                   style: GoogleFonts.montserrat(
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  'Deseja realmente sair da sua conta? Seus cultivos sentirão sua falta! 😢',
+                  'Deseja realmente sair da sua conta? Seus plantios sentirão sua falta! 😢',
                   style: GoogleFonts.montserrat(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),
                   textAlign: TextAlign.center,
@@ -103,7 +103,7 @@ Future _showBottomSair(context) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 150,
+                      width: 120,
                       child: TextButton(
                         onPressed: () => Get.back(),
                         style: TextButton.styleFrom(
@@ -121,7 +121,7 @@ Future _showBottomSair(context) {
                           textAlign: TextAlign.start,
                           'CANCELAR',
                           style: GoogleFonts.montserrat(
-                            fontSize: 18,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -130,7 +130,7 @@ Future _showBottomSair(context) {
                     ),
                     SizedBox(width: 10),
                     SizedBox(
-                      width: 150,
+                      width: 120,
                       child: TextButton(
                         onPressed: () {
                           AutenticationService().logOut();
@@ -148,7 +148,7 @@ Future _showBottomSair(context) {
                           textAlign: TextAlign.start,
                           'SAIR',
                           style: GoogleFonts.montserrat(
-                            fontSize: 18,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
                           ),
