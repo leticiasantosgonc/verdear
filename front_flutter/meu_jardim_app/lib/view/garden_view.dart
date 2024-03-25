@@ -96,15 +96,12 @@ class _GardenViewState extends State<GardenView> {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
+                            SizedBox(
+                              height: 20,
+                            ),
                             Icon(
                               PhosphorIcons.caret_down,
                               size: 20,
-                            ),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            GestureDetector(
-                              child: Image.asset('lib/assets/plus_garden.gif'),
                             ),
                           ],
                         )

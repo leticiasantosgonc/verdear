@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailsFarmingView extends StatefulWidget {
@@ -60,89 +61,97 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            isFavorite = !isFavorite;
-                            _updateFavoriteStatus(isFavorite);
-                          });
-                        },
-                        child: Icon(
-                          isFavorite
-                              ? PhosphorIcons.heart_fill
-                              : PhosphorIcons.heart,
-                          size: 20,
-                          color: isFavorite ? Colors.red : Colors.grey,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              isFavorite = !isFavorite;
+                              _updateFavoriteStatus(isFavorite);
+                            });
+                          },
+                          child: Icon(
+                            isFavorite
+                                ? PhosphorIcons.heart_fill
+                                : PhosphorIcons.heart,
+                            size: 20,
+                            color: isFavorite ? Colors.red : Colors.grey,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Icon(PhosphorIcons.pencil_fill, size: 20),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Icon(
-                        PhosphorIcons.trash_fill,
-                        size: 20,
-                      )
-                    ],
-                  ),
-                  Text(
-                    widget.plantData['name'],
-                    style: GoogleFonts.montserrat(
-                      fontSize: 16,
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Icon(PhosphorIcons.pencil_fill, size: 20),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            _showDialogDelete(context);
+                          },
+                          child: Icon(
+                            PhosphorIcons.trash_fill,
+                            size: 20,
+                          ),
+                        )
+                      ],
                     ),
-                  ),
-                  Text(widget.plantData['name_botanical'],
+                    Text(
+                      widget.plantData['name'],
                       style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontStyle: FontStyle.italic,
-                      )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(widget.plantData['description'],
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                      )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        height: 30,
+                        fontSize: 16,
                       ),
-                      Icon(PhosphorIcons.cake),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        birthdayDate(widget.plantData['date']),
+                    ),
+                    Text(widget.plantData['name_botanical'],
                         style: GoogleFonts.montserrat(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: Colors.grey,
+                          fontStyle: FontStyle.italic,
+                        )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(widget.plantData['description'],
+                        style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                        )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          height: 30,
                         ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Icon(PhosphorIcons.map_pin),
-                      Text(widget.plantData['location']),
-                      SizedBox(
-                        width: 70,
-                      ),
-                    ],
-                  )
-                ],
+                        Icon(PhosphorIcons.planet),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          birthdayDate(widget.plantData['date']),
+                          style: GoogleFonts.montserrat(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Icon(PhosphorIcons.map_pin),
+                        Text(widget.plantData['location']),
+                        SizedBox(
+                          width: 70,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],
@@ -181,5 +190,136 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
     }).catchError((error) {
       print('Erro ao atualizar status de favorito: $error');
     });
+  }
+
+  void _deletePlant() {
+    FirebaseFirestore.instance
+        .collection('plants')
+        .doc(widget.plantDocumentId)
+        .delete()
+        .then((_) {
+      Navigator.pop(context);
+    }).catchError((error) {
+      print('Erro ao deletar planta: $error');
+    });
+  }
+
+  Future _showDialogDelete(context) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: 300,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.background,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              InkWell(
+                onTap: () => Get.back(),
+                child: Icon(
+                  PhosphorIcons.x,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  size: 18,
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 8),
+                  Icon(
+                    PhosphorIcons.trash,
+                    size: 50,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    'Excluir plantio?',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    'Deseja prosseguir com a exclusão do plantio? 😢',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: TextButton(
+                          onPressed: () => Get.back(),
+                          style: TextButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
+                            side: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            padding: const EdgeInsets.all(15),
+                          ),
+                          child: Text(
+                            textAlign: TextAlign.start,
+                            'CANCELAR',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      SizedBox(
+                        width: 120,
+                        child: TextButton(
+                          onPressed: () {
+                            _deletePlant();
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            padding: const EdgeInsets.all(15),
+                          ),
+                          child: Text(
+                            textAlign: TextAlign.start,
+                            'SAIR',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

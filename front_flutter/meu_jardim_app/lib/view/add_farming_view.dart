@@ -17,6 +17,7 @@ class AddFarmingView extends StatefulWidget {
 
 class _AddFarmingViewState extends State<AddFarmingView> {
   CollectionReference _plants = FirebaseFirestore.instance.collection('plants');
+  final formAddKey = GlobalKey<FormState>();
 
   TextEditingController _dateController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
@@ -26,23 +27,37 @@ class _AddFarmingViewState extends State<AddFarmingView> {
   TextEditingController _locationController = TextEditingController();
 
   void addPlant() {
-    _plants.add({
-      'id': FirebaseAuth.instance.currentUser!.uid,
-      'id_plant': Uuid().v4(),
-      'name': _nameController.text,
-      'name_botanical': _botanicalNameController.text,
-      'description': _descriptionController.text,
-      'species': _speciesController.text,
-      'location': _locationController.text,
-      'date': _dateController.text,
-      'favorite': false,
-    });
-    _nameController.clear();
-    _botanicalNameController.clear();
-    _descriptionController.clear();
-    _speciesController.clear();
-    _locationController.clear();
-    _dateController.clear();
+    if (formAddKey.currentState!.validate()) {
+      _plants.add({
+        'id': FirebaseAuth.instance.currentUser!.uid,
+        'id_plant': Uuid().v4(),
+        'name': _nameController.text,
+        'name_botanical': _botanicalNameController.text,
+        'description': _descriptionController.text,
+        'species': _speciesController.text,
+        'location': _locationController.text,
+        'date': _dateController.text,
+        'favorite': false,
+      });
+      _nameController.clear();
+      _botanicalNameController.clear();
+      _descriptionController.clear();
+      _speciesController.clear();
+      _locationController.clear();
+      _dateController.clear();
+
+      _showToast();
+      Get.to(GardenView());
+    } else {
+      Get.snackbar(
+        'Erro ao cadastrar cultivo',
+        'Por favor, preencha todos os campos obrigatórios.',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 2),
+      );
+    }
   }
 
   @override
@@ -74,6 +89,7 @@ class _AddFarmingViewState extends State<AddFarmingView> {
           Padding(
             padding: const EdgeInsets.all(14),
             child: Form(
+              key: formAddKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -93,7 +109,13 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                   const SizedBox(height: 20),
                   Container(
                     height: 60,
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo obrigatório.';
+                        }
+                        return null;
+                      },
                       controller: _nameController,
                       style: GoogleFonts.montserrat(
                         fontSize: 12,
@@ -101,9 +123,9 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                       ),
                       decoration: const InputDecoration(
                         labelText: 'Nome',
-                        border: UnderlineInputBorder(
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
-                            Radius.circular(0),
+                            Radius.circular(5),
                           ),
                         ),
                       ),
@@ -120,9 +142,9 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                       ),
                       decoration: const InputDecoration(
                         labelText: 'Nome botânico',
-                        border: UnderlineInputBorder(
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
-                            Radius.circular(0),
+                            Radius.circular(5),
                           ),
                         ),
                       ),
@@ -141,9 +163,9 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                       decoration: const InputDecoration(
                         hintText: 'Ex: Tóxica para gatos, rega diária...',
                         labelText: 'Descrição',
-                        border: UnderlineInputBorder(
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
-                            Radius.circular(0),
+                            Radius.circular(5),
                           ),
                         ),
                       ),
@@ -161,9 +183,9 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                       decoration: const InputDecoration(
                         hintText: 'Ex: Raiz, orquídea, suculenta...',
                         labelText: 'Espécie',
-                        border: UnderlineInputBorder(
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
-                            Radius.circular(0),
+                            Radius.circular(5),
                           ),
                         ),
                       ),
@@ -172,7 +194,13 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                   const SizedBox(height: 10),
                   Container(
                     height: 60,
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo obrigatório.';
+                        }
+                        return null;
+                      },
                       controller: _locationController,
                       style: GoogleFonts.montserrat(
                         fontSize: 12,
@@ -181,9 +209,9 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                       decoration: const InputDecoration(
                         hintText: 'Ex: Jardim, horta, varanda...',
                         labelText: 'Local',
-                        border: UnderlineInputBorder(
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
-                            Radius.circular(0),
+                            Radius.circular(5),
                           ),
                         ),
                       ),
@@ -192,7 +220,13 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                   const SizedBox(height: 10),
                   Container(
                     height: 60,
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo obrigatório.';
+                        }
+                        return null;
+                      },
                       controller: _dateController,
                       style: GoogleFonts.montserrat(
                         fontSize: 12,
@@ -201,9 +235,9 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                       decoration: const InputDecoration(
                         labelText: 'Data de plantio',
                         suffixIcon: Icon(PhosphorIcons.calendar),
-                        border: UnderlineInputBorder(
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
-                            Radius.circular(0),
+                            Radius.circular(5),
                           ),
                         ),
                       ),
@@ -219,8 +253,6 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                     child: TextButton(
                       onPressed: () {
                         addPlant();
-                        Get.to(GardenView());
-                        _showToast();
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
