@@ -1,6 +1,6 @@
 name: meu_jardim_app
 
-description: meu jardim é um app para auxiliar na rotina de seus plantios :)
+description: meu jardim é um app para auxiliar na rotina de seus cultivos :)
 
 publish_to: 'none' 
 
@@ -39,5 +39,6 @@ flutter:
     - lib/assets/logo_dark.png
     - lib/assets/logo_light.png
     - lib/assets/password.gif
+    - lib/assets/no_plants.gif
     
    

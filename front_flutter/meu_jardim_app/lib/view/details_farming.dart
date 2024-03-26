@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meu_jardim_app/view/navigation_view.dart';
 
 class DetailsFarmingView extends StatefulWidget {
   final Map<String, dynamic> plantData;
@@ -198,10 +199,21 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
         .doc(widget.plantDocumentId)
         .delete()
         .then((_) {
-      Navigator.pop(context);
+      Get.offAll(() => NavegationView(), predicate: (route) => route.isFirst);
+      _showSnackSucess(context);
     }).catchError((error) {
       print('Erro ao deletar planta: $error');
     });
+  }
+
+  void _showSnackSucess(BuildContext context) {
+    Get.snackbar(
+      'Cultivo deletado do meu jardim!',
+      'Não deixe de adicionar novos cultivos. 🌱',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
   }
 
   Future _showDialogDelete(context) {
@@ -240,7 +252,7 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                   ),
                   const SizedBox(height: 15),
                   Text(
-                    'Excluir plantio?',
+                    'Excluir cultivo?',
                     style: GoogleFonts.montserrat(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -248,7 +260,7 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                   ),
                   const SizedBox(height: 15),
                   Text(
-                    'Deseja prosseguir com a exclusão do plantio? 😢',
+                    'Deseja prosseguir com a exclusão do cultivo? 😢',
                     style: GoogleFonts.montserrat(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -303,7 +315,7 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                           ),
                           child: Text(
                             textAlign: TextAlign.start,
-                            'SAIR',
+                            'EXCLUIR',
                             style: GoogleFonts.montserrat(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,

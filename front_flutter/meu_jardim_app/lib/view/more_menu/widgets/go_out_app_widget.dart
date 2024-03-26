@@ -90,7 +90,7 @@ Future _showBottomSair(context) {
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  'Deseja realmente sair da sua conta? Seus plantios sentirão sua falta! 😢',
+                  'Deseja realmente sair da sua conta? Seus cultivos sentirão sua falta! 😢',
                   style: GoogleFonts.montserrat(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,

@@ -97,7 +97,7 @@ Future _showBottomExcluir(context) {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Seus plantios merecem cuidados. 🥀',
+                  'Seus cultivos merecem cuidados. 🥀',
                   style: GoogleFonts.montserrat(
                     fontSize: 14,
                   ),

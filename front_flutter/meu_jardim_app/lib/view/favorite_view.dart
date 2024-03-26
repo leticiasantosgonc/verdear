@@ -5,23 +5,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:meu_jardim_app/service/autentication_service.dart';
 import 'package:meu_jardim_app/view/details_farming.dart';
 
-class GardenView extends StatefulWidget {
-  const GardenView({super.key});
+class FavoriteView extends StatefulWidget {
+  const FavoriteView({super.key});
 
   @override
-  State<GardenView> createState() => _GardenViewState();
+  State<FavoriteView> createState() => _FavoriteViewState();
 }
 
-class _GardenViewState extends State<GardenView> {
+class _FavoriteViewState extends State<FavoriteView> {
   CollectionReference _plants = FirebaseFirestore.instance.collection('plants');
-  TextEditingController _gardenController = TextEditingController();
   late String _currentUserID;
 
   @override
   void initState() {
     super.initState();
-    _currentUserID = AutenticationService()
-        .getCurrentUserID(); // Obtendo o ID do usuário atual
+    _currentUserID = AutenticationService().getCurrentUserID();
   }
 
   @override
@@ -38,11 +36,11 @@ class _GardenViewState extends State<GardenView> {
         scrolledUnderElevation: 1,
         shadowColor: Theme.of(context).brightness == Brightness.dark
             ? Colors.black
-            : Colors.white,
+            : const Color.fromRGBO(238, 238, 238, 1),
         title: Text(
-          'meu jardim',
-          style: GoogleFonts.satisfy(
-              fontSize: 27,
+          'Favoritos',
+          style: GoogleFonts.montserrat(
+              fontSize: 18,
               fontWeight: FontWeight.w600,
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.white
@@ -53,22 +51,12 @@ class _GardenViewState extends State<GardenView> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            TextField(
-              controller: _gardenController,
-              decoration: InputDecoration(
-                suffixIcon: Icon(PhosphorIcons.pencil),
-                border: UnderlineInputBorder(
-                  borderRadius: BorderRadius.circular(0),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
             Expanded(
               child: StreamBuilder(
-                stream:
-                    _plants.where('id', isEqualTo: _currentUserID).snapshots(),
+                stream: _plants
+                    .where('id', isEqualTo: _currentUserID)
+                    .where('favorite', isEqualTo: true)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
@@ -84,24 +72,18 @@ class _GardenViewState extends State<GardenView> {
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                     return ListView(
                       children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Image.asset('lib/assets/no_plants.gif'),
-                        Text(
-                          'Vamos começar!',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          'Clique no adicionar para inlcuir um novo cultivo',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Você ainda não tem cultivos favoritos',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     );
                   }

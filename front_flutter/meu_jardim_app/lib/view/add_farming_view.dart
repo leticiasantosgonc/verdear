@@ -5,7 +5,7 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:meu_jardim_app/view/garden_view.dart';
+import 'package:meu_jardim_app/view/navigation_view.dart';
 import 'package:uuid/uuid.dart';
 
 class AddFarmingView extends StatefulWidget {
@@ -47,7 +47,7 @@ class _AddFarmingViewState extends State<AddFarmingView> {
       _dateController.clear();
 
       _showToast();
-      Get.to(GardenView());
+      Get.offAll(() => NavegationView(), predicate: (route) => route.isFirst);
     } else {
       Get.snackbar(
         'Erro ao cadastrar cultivo',
@@ -64,6 +64,7 @@ class _AddFarmingViewState extends State<AddFarmingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).brightness == Brightness.dark
             ? Theme.of(context).colorScheme.background
             : Theme.of(context).colorScheme.background,
@@ -98,12 +99,17 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                     backgroundImage: AssetImage(''),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    'Adicionar foto',
-                    style: GoogleFonts.montserrat(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                  InkWell(
+                    onTap: () {
+                      _showImageOptions();
+                    },
+                    child: Text(
+                      'Adicionar foto',
+                      style: GoogleFonts.montserrat(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -233,7 +239,7 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                         fontWeight: FontWeight.w400,
                       ),
                       decoration: const InputDecoration(
-                        labelText: 'Data de plantio',
+                        labelText: 'Data do plantio',
                         suffixIcon: Icon(PhosphorIcons.calendar),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
@@ -283,8 +289,8 @@ class _AddFarmingViewState extends State<AddFarmingView> {
 
   void _showToast() {
     Get.snackbar(
-      'Plantio cadastrado',
-      'Seu plantio foi cadastrado com sucesso! 😃',
+      'Cultivo cadastrado',
+      'Seu cultivo foi cadastrado com sucesso! 😃',
       backgroundColor: Colors.green,
       colorText: Colors.white,
       snackPosition: SnackPosition.BOTTOM,
@@ -305,5 +311,44 @@ class _AddFarmingViewState extends State<AddFarmingView> {
     if (pickDate != null)
       _dateController.text = DateFormat('dd/MM/yyyy')
           .format(DateTime.parse(pickDate.toString().split(" ")[0]));
+  }
+
+  void _showImageOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InkWell(
+                onTap: () => Get.back(),
+                child: Icon(
+                  PhosphorIcons.x,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  size: 18,
+                ),
+              ),
+              ListTile(
+                leading: Icon(PhosphorIcons.camera),
+                title: Text('Câmera'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(PhosphorIcons.image),
+                title: Text('Galeria'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:meu_jardim_app/view/add_farming_view.dart';
+import 'package:meu_jardim_app/view/favorite_view.dart';
 import 'package:meu_jardim_app/view/garden_view.dart';
 import 'package:meu_jardim_app/view/more_menu/more_view.dart';
 
-class HomeView extends StatefulWidget {
-  HomeView({super.key});
+class NavegationView extends StatefulWidget {
+  NavegationView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<NavegationView> createState() => _NavegationViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _NavegationViewState extends State<NavegationView> {
   int pageIndex = 0;
   late PageController controller;
 
@@ -30,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
         children: [
           GardenView(),
           AddFarmingView(),
-          Text('Favoritos'),
+          FavoriteView(),
           MoreView(),
         ],
         onPageChanged: (index) {

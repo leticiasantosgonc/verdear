@@ -66,7 +66,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
             const SizedBox(height: 50),
             Text(
               textAlign: TextAlign.center,
-              'Não se preocupe, vamos recuperar o seu acesso. Seus plantios esperam por você! 🌱',
+              'Não se preocupe, vamos recuperar o seu acesso. Seus cultivos esperam por você! 🌱',
               style: GoogleFonts.montserrat(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,

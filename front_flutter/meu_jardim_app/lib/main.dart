@@ -41,7 +41,7 @@ class RouteView extends StatelessWidget {
         stream: FirebaseAuth.instance.userChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomeView();
+            return NavegationView();
           } else {
             return AutenticationView();
           }
