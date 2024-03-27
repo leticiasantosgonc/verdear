@@ -60,7 +60,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
             Container(
               height: 200,
               child: Image.asset(
-                'lib/assets/password.gif',
+                'lib/assets/logo_img.gif',
               ),
             ),
             const SizedBox(height: 50),

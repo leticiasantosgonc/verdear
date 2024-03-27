@@ -197,7 +197,88 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.outline,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    height: 90,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('Tóxico: ',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.outline,
+                              )),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Chip(
+                              label: Text(
+                                'Gato',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
+                              avatar: Icon(
+                                PhosphorIcons.cat,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 18,
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Chip(
+                              label: Text(
+                                'Cachorro',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
+                              avatar: Icon(
+                                PhosphorIcons.dog,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 18,
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Chip(
+                              label: Text(
+                                'Humano',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
+                              avatar: Icon(
+                                PhosphorIcons.user,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
                   Container(
                     height: 60,
                     child: TextFormField(

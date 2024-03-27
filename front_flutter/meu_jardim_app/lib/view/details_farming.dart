@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -88,7 +90,10 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                         SizedBox(
                           width: 20,
                         ),
-                        Icon(PhosphorIcons.pencil_fill, size: 20),
+                        Icon(
+                          PhosphorIcons.pencil_fill,
+                          size: 20,
+                        ),
                         SizedBox(
                           width: 20,
                         ),
@@ -109,19 +114,28 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                         fontSize: 16,
                       ),
                     ),
-                    Text(widget.plantData['name_botanical'],
-                        style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                          color: Colors.grey,
-                          fontStyle: FontStyle.italic,
-                        )),
-                    SizedBox(
-                      height: 10,
+                    Visibility(
+                      visible: widget.plantData['name_botanical'] != null,
+                      child: Text(widget.plantData['name_botanical'],
+                          style: GoogleFonts.montserrat(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            fontStyle: FontStyle.italic,
+                          )),
                     ),
-                    Text(widget.plantData['description'],
-                        style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                        )),
+                    Visibility(
+                      visible: widget.plantData['description'] != null,
+                      child: Text(widget.plantData['description'],
+                          style: GoogleFonts.montserrat(
+                            fontSize: 14,
+                          )),
+                    ),
+                    Visibility(
+                        visible: widget.plantData['species'] != null,
+                        child: Text(widget.plantData['species'],
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                            ))),
                     SizedBox(
                       height: 10,
                     ),
@@ -130,7 +144,10 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                         SizedBox(
                           height: 30,
                         ),
-                        Icon(PhosphorIcons.planet),
+                        Icon(
+                          PhosphorIcons.calendar,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                         SizedBox(
                           width: 5,
                         ),
@@ -144,7 +161,8 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                         SizedBox(
                           width: 15,
                         ),
-                        Icon(PhosphorIcons.map_pin),
+                        Icon(PhosphorIcons.map_pin,
+                            color: Theme.of(context).colorScheme.primary),
                         Text(widget.plantData['location']),
                         SizedBox(
                           width: 70,
@@ -211,7 +229,7 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
       'Cultivo deletado do meu jardim!',
       'Não deixe de adicionar novos cultivos. 🌱',
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.blue[200],
       colorText: Colors.white,
     );
   }
@@ -273,7 +291,7 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 120,
+                        width: 160,
                         child: TextButton(
                           onPressed: () => Get.back(),
                           style: TextButton.styleFrom(
@@ -300,7 +318,7 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                       ),
                       SizedBox(width: 10),
                       SizedBox(
-                        width: 120,
+                        width: 160,
                         child: TextButton(
                           onPressed: () {
                             _deletePlant();

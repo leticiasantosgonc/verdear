@@ -199,7 +199,7 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
           const SizedBox(height: 20),
           InkWell(
             onTap: () {
-              Get.to(ResetPasswordView());
+              Get.to(() => ResetPasswordView());
             },
             child: Text(
               textAlign: TextAlign.right,
