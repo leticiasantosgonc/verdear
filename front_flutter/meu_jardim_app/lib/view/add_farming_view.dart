@@ -26,6 +26,28 @@ class _AddFarmingViewState extends State<AddFarmingView> {
   TextEditingController _speciesController = TextEditingController();
   TextEditingController _locationController = TextEditingController();
 
+  bool _isCatToxicSelected = false;
+  bool _isDogToxicSelected = false;
+  bool _isHumanToxicSelected = false;
+
+  void _toggleCatToxic() {
+    setState(() {
+      _isCatToxicSelected = !_isCatToxicSelected;
+    });
+  }
+
+  void _toggleDogToxic() {
+    setState(() {
+      _isDogToxicSelected = !_isDogToxicSelected;
+    });
+  }
+
+  void _toggleHumanToxic() {
+    setState(() {
+      _isHumanToxicSelected = !_isHumanToxicSelected;
+    });
+  }
+
   void addPlant() {
     if (formAddKey.currentState!.validate()) {
       _plants.add({
@@ -38,6 +60,9 @@ class _AddFarmingViewState extends State<AddFarmingView> {
         'location': _locationController.text,
         'date': _dateController.text,
         'favorite': false,
+        'dog_toxic': _isDogToxicSelected,
+        'cat_toxic': _isCatToxicSelected,
+        'human_toxic': _isHumanToxicSelected,
       });
       _nameController.clear();
       _botanicalNameController.clear();
@@ -167,7 +192,7 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                       ),
                       maxLines: 3,
                       decoration: const InputDecoration(
-                        hintText: 'Ex: Tóxica para gatos, rega diária...',
+                        hintText: 'Ex: Adubação, rega diária...',
                         labelText: 'Descrição',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
@@ -223,54 +248,81 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Chip(
-                              label: Text(
-                                'Gato',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                            GestureDetector(
+                              onTap: _toggleCatToxic,
+                              child: Chip(
+                                label: Text(
+                                  'Gato',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: _isCatToxicSelected
+                                        ? Colors.white
+                                        : Theme.of(context).colorScheme.outline,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                              avatar: Icon(
-                                PhosphorIcons.cat,
-                                color: Theme.of(context).colorScheme.primary,
-                                size: 18,
+                                backgroundColor: _isCatToxicSelected
+                                    ? Colors.green
+                                    : Theme.of(context).colorScheme.surface,
+                                avatar: Icon(
+                                  PhosphorIcons.cat,
+                                  color: _isCatToxicSelected
+                                      ? Colors.white
+                                      : Theme.of(context).colorScheme.primary,
+                                  size: 18,
+                                ),
                               ),
                             ),
                             SizedBox(width: 5),
-                            Chip(
-                              label: Text(
-                                'Cachorro',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                            GestureDetector(
+                              onTap: _toggleDogToxic,
+                              child: Chip(
+                                label: Text(
+                                  'Cachorro',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: _isDogToxicSelected
+                                        ? Colors.white
+                                        : Theme.of(context).colorScheme.outline,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                              avatar: Icon(
-                                PhosphorIcons.dog,
-                                color: Theme.of(context).colorScheme.primary,
-                                size: 18,
+                                backgroundColor: _isDogToxicSelected
+                                    ? Colors.green
+                                    : Theme.of(context).colorScheme.surface,
+                                avatar: Icon(
+                                  PhosphorIcons.dog,
+                                  color: _isDogToxicSelected
+                                      ? Colors.white
+                                      : Theme.of(context).colorScheme.primary,
+                                  size: 18,
+                                ),
                               ),
                             ),
                             SizedBox(width: 5),
-                            Chip(
-                              label: Text(
-                                'Humano',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                            GestureDetector(
+                              onTap: _toggleHumanToxic,
+                              child: Chip(
+                                label: Text(
+                                  'Humano',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: _isHumanToxicSelected
+                                        ? Colors.white
+                                        : Theme.of(context).colorScheme.outline,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                              avatar: Icon(
-                                PhosphorIcons.user,
-                                color: Theme.of(context).colorScheme.primary,
-                                size: 18,
+                                backgroundColor: _isHumanToxicSelected
+                                    ? Colors.green
+                                    : Theme.of(context).colorScheme.surface,
+                                avatar: Icon(
+                                  PhosphorIcons.user,
+                                  color: _isHumanToxicSelected
+                                      ? Colors.white
+                                      : Theme.of(context).colorScheme.primary,
+                                  size: 18,
+                                ),
                               ),
                             ),
                           ],

@@ -259,7 +259,7 @@ class _GardenViewState extends State<GardenView> {
                                     color: Colors.red,
                                     size: 15,
                                   ),
-                                )
+                                ),
                               ],
                             ),
                             subtitle: Row(
@@ -321,7 +321,7 @@ class _GardenViewState extends State<GardenView> {
     return showModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: 350,
+        height: 320,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.only(
