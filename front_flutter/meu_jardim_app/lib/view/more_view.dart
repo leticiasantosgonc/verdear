@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meu_jardim_app/view/more_menu/widgets/assess_app_widget.dart';
-import 'package:meu_jardim_app/view/more_menu/widgets/account_creation_widget.dart';
-import 'package:meu_jardim_app/view/more_menu/widgets/information_app_widget.dart';
-import 'package:meu_jardim_app/view/more_menu/widgets/go_out_app_widget.dart';
-import 'package:meu_jardim_app/view/more_menu/widgets/version_app_widget.dart';
+import 'package:meu_jardim_app/view/more_menu_widget/assess_app_widget.dart';
+import 'package:meu_jardim_app/view/more_menu_widget/account_creation_widget.dart';
+import 'package:meu_jardim_app/view/more_menu_widget/information_app_widget.dart';
+import 'package:meu_jardim_app/view/more_menu_widget/go_out_app_widget.dart';
+import 'package:meu_jardim_app/view/more_menu_widget/version_app_widget.dart';
 
-import 'widgets/delete_account_widget.dart';
+import 'more_menu_widget/delete_account_widget.dart';
 
 class MoreView extends StatelessWidget {
   MoreView({super.key});

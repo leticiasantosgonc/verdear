@@ -1,10 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meu_jardim_app/service/autentication_service.dart';
 import 'package:meu_jardim_app/view/details_farming.dart';
@@ -45,12 +46,36 @@ class _GardenViewState extends State<GardenView> {
           data['results']['moon_phase'] ?? ''; // pega a fase da lua
       final moonPhaseImageURL =
           getMoonPhaseImageURL(moonPhase); //pega url da imagem da fase da lua
+      final nameMoon =
+          translateMoonPhase(moonPhase); //traduz a fase da lua para português
       setState(() {
-        currentMoonPhase = moonPhase;
+        currentMoonPhase = nameMoon;
         currentMoonPhaseImageURL = moonPhaseImageURL;
       });
     } else {
       throw Exception('Erro desconhecido');
+    }
+  }
+
+  String translateMoonPhase(String currentMoonPhase) {
+    if (currentMoonPhase == 'new') {
+      return 'Lua nova';
+    } else if (currentMoonPhase == 'waxing_crescent') {
+      return 'Lua crescente';
+    } else if (currentMoonPhase == 'first_quarter') {
+      return 'Quarto crescente';
+    } else if (currentMoonPhase == 'waxing_gibbous') {
+      return 'Gibosa crescente';
+    } else if (currentMoonPhase == 'full') {
+      return 'Lua cheia';
+    } else if (currentMoonPhase == 'waning_gibbous') {
+      return 'Gibosa minguante';
+    } else if (currentMoonPhase == 'last_quarter') {
+      return 'Quarto minguante';
+    } else if (currentMoonPhase == 'waning_crescent') {
+      return 'Lua minguante';
+    } else {
+      return 'Fase da lua desconhecida';
     }
   }
 
@@ -120,42 +145,7 @@ class _GardenViewState extends State<GardenView> {
                   Visibility(
                     visible: currentMoonPhase.isNotEmpty,
                     child: InkWell(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('Fase da Lua'),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Image.network(
-                                    currentMoonPhaseImageURL,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Fase atual: ${currentMoonPhase}',
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('Fechar'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
+                      onTap: () => _showPhaseMoon(context),
                       child: Image.network(
                         currentMoonPhaseImageURL,
                       ),
@@ -323,6 +313,86 @@ class _GardenViewState extends State<GardenView> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Future _showPhaseMoon(context) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: 350,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.background,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              InkWell(
+                onTap: () => Get.back(),
+                child: Icon(
+                  PhosphorIcons.x,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  size: 18,
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 8),
+                  Image.network(
+                    currentMoonPhaseImageURL,
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    'Fase atual da lua',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    '${currentMoonPhase}',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: 380,
+                    child: TextButton(
+                      onPressed: () => Get.back(),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        padding: const EdgeInsets.all(15),
+                      ),
+                      child: Text(
+                        textAlign: TextAlign.start,
+                        'CONCLUIR',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

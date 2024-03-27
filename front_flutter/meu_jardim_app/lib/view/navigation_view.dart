@@ -3,7 +3,7 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:meu_jardim_app/view/add_farming_view.dart';
 import 'package:meu_jardim_app/view/favorite_view.dart';
 import 'package:meu_jardim_app/view/garden_view.dart';
-import 'package:meu_jardim_app/view/more_menu/more_view.dart';
+import 'package:meu_jardim_app/view/more_view.dart';
 
 class NavegationView extends StatefulWidget {
   NavegationView({super.key});
