@@ -15,12 +15,13 @@ class AssessAppWidget extends StatelessWidget {
             color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-              color: Theme.of(context).colorScheme.outlineVariant,
+              color: Theme.of(context).colorScheme.primary,
             )),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(children: [
-            Icon(PhosphorIcons.smiley),
+            Icon(PhosphorIcons.smiley_fill,
+                color: Theme.of(context).colorScheme.primary),
             const SizedBox(width: 15),
             Text(
               'Avalie o app',
@@ -32,7 +33,7 @@ class AssessAppWidget extends StatelessWidget {
             const SizedBox(width: 156),
             Icon(
               PhosphorIcons.caret_right,
-              color: Theme.of(context).colorScheme.outlineVariant,
+              color: Theme.of(context).colorScheme.primary,
               size: 18,
             ),
           ]),
@@ -102,7 +103,7 @@ Future _showBottomAvalie(context) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 120,
+                      width: 160,
                       child: TextButton(
                         onPressed: () => Get.back(),
                         style: TextButton.styleFrom(
@@ -129,7 +130,7 @@ Future _showBottomAvalie(context) {
                     ),
                     SizedBox(width: 10),
                     SizedBox(
-                      width: 120,
+                      width: 160,
                       child: TextButton(
                         onPressed: () => Get.back(),
                         style: TextButton.styleFrom(

@@ -14,13 +14,12 @@ class InformationAppWidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              color: Theme.of(context).colorScheme.outlineVariant,
-            )),
+            border: Border.all(color: Theme.of(context).colorScheme.primary)),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(children: [
-            Icon(PhosphorIcons.info),
+            Icon(PhosphorIcons.info_fill,
+                color: Theme.of(context).colorScheme.primary),
             const SizedBox(width: 15),
             Text(
               'Informações do app',
@@ -32,7 +31,7 @@ class InformationAppWidget extends StatelessWidget {
             const SizedBox(width: 100),
             Icon(
               PhosphorIcons.caret_right,
-              color: Theme.of(context).colorScheme.outlineVariant,
+              color: Theme.of(context).colorScheme.primary,
               size: 18,
             ),
           ]),
@@ -97,7 +96,7 @@ Future _showInfoApp(context) {
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  width: 120,
+                  width: 380,
                   child: TextButton(
                     onPressed: () => Get.back(),
                     style: TextButton.styleFrom(

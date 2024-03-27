@@ -143,7 +143,9 @@ class _FavoriteViewState extends State<FavoriteView> {
                                 SizedBox(
                                   height: 30,
                                 ),
-                                Icon(PhosphorIcons.calendar_blank),
+                                Icon(PhosphorIcons.calendar_blank,
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
                                 SizedBox(
                                   width: 5,
                                 ),
@@ -157,14 +159,17 @@ class _FavoriteViewState extends State<FavoriteView> {
                                 SizedBox(
                                   width: 15,
                                 ),
-                                Icon(PhosphorIcons.map_pin),
+                                Icon(
+                                  PhosphorIcons.map_pin,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                                 Text(plants['location']),
                                 SizedBox(
                                   width: 70,
                                 ),
                                 Icon(
                                   PhosphorIcons.caret_right,
-                                  color: Colors.grey,
+                                  color: Theme.of(context).colorScheme.primary,
                                   size: 15,
                                 ),
                               ],

@@ -56,23 +56,49 @@ class _NavegationViewState extends State<NavegationView> {
           currentIndex: pageIndex,
           items: [
             BottomNavigationBarItem(
-              activeIcon: Icon(PhosphorIcons.flower_fill),
-              icon: Icon(PhosphorIcons.flower_thin),
+              activeIcon: Icon(
+                PhosphorIcons.flower_fill,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.white,
+              ),
+              icon: Icon(PhosphorIcons.flower_thin,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.white),
               label: 'Jardim',
             ),
             BottomNavigationBarItem(
-              activeIcon: Icon(PhosphorIcons.plus_circle_fill),
-              icon: Icon(PhosphorIcons.plus_circle),
+              activeIcon: Icon(PhosphorIcons.plus_circle_fill,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.white),
+              icon: Icon(PhosphorIcons.plus_circle,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.white),
               label: 'Adicionar',
             ),
             BottomNavigationBarItem(
-              activeIcon: Icon(PhosphorIcons.heart_fill),
-              icon: Icon(PhosphorIcons.heart),
+              activeIcon: Icon(PhosphorIcons.heart_fill,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.white),
+              icon: Icon(PhosphorIcons.heart,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.white),
               label: 'Favoritos',
             ),
             BottomNavigationBarItem(
-              activeIcon: Icon(PhosphorIcons.list_fill),
-              icon: Icon(PhosphorIcons.list),
+              activeIcon: Icon(PhosphorIcons.list_fill,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.white),
+              icon: Icon(PhosphorIcons.list,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.white),
               label: 'Mais',
             ),
           ],

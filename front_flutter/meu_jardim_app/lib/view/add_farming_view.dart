@@ -255,8 +255,8 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                   ),
                   const SizedBox(height: 15),
                   SizedBox(
-                    width: 120,
-                    child: TextButton(
+                    width: 380,
+                    child: ElevatedButton(
                       onPressed: () {
                         addPlant();
                       },

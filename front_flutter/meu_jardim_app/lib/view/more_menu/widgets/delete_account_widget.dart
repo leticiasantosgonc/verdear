@@ -16,12 +16,13 @@ class DeleteAccountWidget extends StatelessWidget {
             color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-              color: Theme.of(context).colorScheme.outlineVariant,
+              color: Theme.of(context).colorScheme.primary,
             )),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(children: [
-            Icon(PhosphorIcons.trash),
+            Icon(PhosphorIcons.trash_fill,
+                color: Theme.of(context).colorScheme.primary),
             const SizedBox(width: 15),
             Text(
               'Excluir conta',
@@ -33,7 +34,7 @@ class DeleteAccountWidget extends StatelessWidget {
             const SizedBox(width: 152),
             Icon(
               PhosphorIcons.caret_right,
-              color: Theme.of(context).colorScheme.outlineVariant,
+              color: Theme.of(context).colorScheme.primary,
               size: 18,
             ),
           ]),
@@ -108,7 +109,7 @@ Future _showBottomExcluir(context) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 120,
+                      width: 160,
                       child: TextButton(
                         onPressed: () => Get.back(),
                         style: TextButton.styleFrom(
@@ -135,7 +136,7 @@ Future _showBottomExcluir(context) {
                     ),
                     SizedBox(width: 10),
                     SizedBox(
-                      width: 120,
+                      width: 160,
                       child: TextButton(
                         onPressed: () {
                           AutenticationService().deleteAccount();

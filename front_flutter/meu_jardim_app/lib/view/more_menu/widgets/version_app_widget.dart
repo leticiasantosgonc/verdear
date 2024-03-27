@@ -13,7 +13,7 @@ class VersionAppWidget extends StatelessWidget {
             color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-              color: Theme.of(context).colorScheme.outlineVariant,
+              color: Theme.of(context).colorScheme.primary,
             )),
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -22,7 +22,8 @@ class VersionAppWidget extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Icon(PhosphorIcons.arrows_clockwise),
+                  Icon(PhosphorIcons.arrows_clockwise_fill,
+                      color: Theme.of(context).colorScheme.primary),
                 ],
               ),
               const SizedBox(width: 15),

@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meu_jardim_app/service/autentication_service.dart';
 import 'package:meu_jardim_app/view/details_farming.dart';
+
+import 'package:http/http.dart' as http;
 
 class GardenView extends StatefulWidget {
   const GardenView({super.key});
@@ -14,14 +20,61 @@ class GardenView extends StatefulWidget {
 
 class _GardenViewState extends State<GardenView> {
   CollectionReference _plants = FirebaseFirestore.instance.collection('plants');
-  TextEditingController _gardenController = TextEditingController();
   late String _currentUserID;
+  late String name;
+
+  late String currentMoonPhase = '';
+  late String currentMoonPhaseImageURL = '';
 
   @override
   void initState() {
     super.initState();
     _currentUserID = AutenticationService()
-        .getCurrentUserID(); // Obtendo o ID do usuário atual
+        .getCurrentUserID(); // pega id do usuário logado no momento
+    name = FirebaseAuth.instance.currentUser!.displayName.toString();
+    fetchMoonPhase();
+  }
+
+  Future<void> fetchMoonPhase() async {
+    final url = Uri.parse('https://api.hgbrasil.com/weather?woeid=456964');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final moonPhase =
+          data['results']['moon_phase'] ?? ''; // pega a fase da lua
+      final moonPhaseImageURL =
+          getMoonPhaseImageURL(moonPhase); //pega url da imagem da fase da lua
+      setState(() {
+        currentMoonPhase = moonPhase;
+        currentMoonPhaseImageURL = moonPhaseImageURL;
+      });
+    } else {
+      throw Exception('Erro desconhecido');
+    }
+  }
+
+  String getMoonPhaseImageURL(String moonPhase) {
+    switch (moonPhase) {
+      case 'new':
+        return 'https://assets.hgbrasil.com/weather/icons/moon/new.png';
+      case 'waxing_crescent':
+        return 'https://assets.hgbrasil.com/weather/icons/moon/waxing_crescent.png';
+      case 'first_quarter':
+        return 'https://assets.hgbrasil.com/weather/icons/moon/first_quarter.png';
+      case 'waxing_gibbous':
+        return 'https://assets.hgbrasil.com/weather/icons/moon/waxing_gibbous.png';
+      case 'full':
+        return 'https://assets.hgbrasil.com/weather/icons/moon/full.png';
+      case 'waning_gibbous':
+        return 'https://assets.hgbrasil.com/weather/icons/moon/waning_gibbous.png';
+      case 'last_quarter':
+        return 'https://assets.hgbrasil.com/weather/icons/moon/last_quarter.png';
+      case 'waning_crescent':
+        return 'https://assets.hgbrasil.com/weather/icons/moon/waning_crescent.png';
+      default:
+        return '';
+    }
   }
 
   @override
@@ -30,8 +83,8 @@ class _GardenViewState extends State<GardenView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? Theme.of(context).colorScheme.background
-            : Theme.of(context).colorScheme.background,
+            ? Theme.of(context).colorScheme.surface
+            : Theme.of(context).colorScheme.primary,
         surfaceTintColor: Theme.of(context).brightness == Brightness.dark
             ? Theme.of(context).colorScheme.background
             : Theme.of(context).colorScheme.background,
@@ -42,30 +95,90 @@ class _GardenViewState extends State<GardenView> {
         title: Text(
           'meu jardim',
           style: GoogleFonts.satisfy(
-              fontSize: 27,
-              fontWeight: FontWeight.w600,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white
-                  : Colors.black),
+            fontSize: 27,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            TextField(
-              controller: _gardenController,
-              decoration: InputDecoration(
-                suffixIcon: Icon(PhosphorIcons.pencil),
-                border: UnderlineInputBorder(
-                  borderRadius: BorderRadius.circular(0),
-                ),
+      body: Column(
+        children: [
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Olá, ${name}',
+                    style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                  Visibility(
+                    visible: currentMoonPhase.isNotEmpty,
+                    child: InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Fase da Lua'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Image.network(
+                                    currentMoonPhaseImageURL,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    'Fase atual: ${currentMoonPhase}',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Fechar'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Image.network(
+                        currentMoonPhaseImageURL,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(
-              height: 20,
+            width: double.infinity,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Theme.of(context).colorScheme.surface
+                  : Theme.of(context).colorScheme.primary,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              ),
             ),
-            Expanded(
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
               child: StreamBuilder(
                 stream:
                     _plants.where('id', isEqualTo: _currentUserID).snapshots(),
@@ -84,23 +197,27 @@ class _GardenViewState extends State<GardenView> {
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                     return ListView(
                       children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Image.asset('lib/assets/no_plants.gif'),
-                        Text(
-                          'Vamos começar!',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          'Clique no adicionar para inlcuir um novo cultivo',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                          ),
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Image.asset('lib/assets/no_plants.gif'),
+                            Text(
+                              'Vamos começar!',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              'Clique no adicionar para inlcuir um novo cultivo',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     );
@@ -161,7 +278,10 @@ class _GardenViewState extends State<GardenView> {
                                 SizedBox(
                                   height: 30,
                                 ),
-                                Icon(PhosphorIcons.calendar_blank),
+                                Icon(
+                                  PhosphorIcons.calendar_blank,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                                 SizedBox(
                                   width: 5,
                                 ),
@@ -175,14 +295,20 @@ class _GardenViewState extends State<GardenView> {
                                 SizedBox(
                                   width: 15,
                                 ),
-                                Icon(PhosphorIcons.map_pin),
+                                Icon(
+                                  PhosphorIcons.map_pin,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
                                 Text(plants['location']),
                                 SizedBox(
                                   width: 70,
                                 ),
                                 Icon(
                                   PhosphorIcons.caret_right,
-                                  color: Colors.grey,
+                                  color: Theme.of(context).colorScheme.primary,
                                   size: 15,
                                 ),
                               ],
@@ -195,8 +321,8 @@ class _GardenViewState extends State<GardenView> {
                 },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

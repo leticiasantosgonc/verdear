@@ -16,7 +16,7 @@ class AccountCreationWidget extends StatelessWidget {
             color: Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-              color: Theme.of(context).colorScheme.outlineVariant,
+              color: Theme.of(context).colorScheme.primary,
             )),
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -25,7 +25,8 @@ class AccountCreationWidget extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Icon(PhosphorIcons.calendar),
+                  Icon(PhosphorIcons.calendar_fill,
+                      color: Theme.of(context).colorScheme.primary),
                 ],
               ),
               const SizedBox(width: 15),
