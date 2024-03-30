@@ -21,8 +21,9 @@ class GoOutAppWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(children: [
-            Icon(PhosphorIcons.power_fill,
-                color: Theme.of(context).colorScheme.primary),
+            Icon(
+              PhosphorIcons.power,
+            ),
             const SizedBox(width: 15),
             Text(
               'Sair',

@@ -21,8 +21,9 @@ class DeleteAccountWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(children: [
-            Icon(PhosphorIcons.trash_fill,
-                color: Theme.of(context).colorScheme.primary),
+            Icon(
+              PhosphorIcons.trash,
+            ),
             const SizedBox(width: 15),
             Text(
               'Excluir conta',

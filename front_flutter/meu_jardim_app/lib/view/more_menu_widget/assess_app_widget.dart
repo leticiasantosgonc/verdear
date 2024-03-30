@@ -20,8 +20,9 @@ class AssessAppWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(children: [
-            Icon(PhosphorIcons.smiley_fill,
-                color: Theme.of(context).colorScheme.primary),
+            Icon(
+              PhosphorIcons.smiley,
+            ),
             const SizedBox(width: 15),
             Text(
               'Avalie o app',

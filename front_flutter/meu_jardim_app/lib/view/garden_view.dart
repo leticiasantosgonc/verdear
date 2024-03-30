@@ -22,7 +22,7 @@ class GardenView extends StatefulWidget {
 class _GardenViewState extends State<GardenView> {
   CollectionReference _plants = FirebaseFirestore.instance.collection('plants');
   late String _currentUserID;
-  late String name;
+  late String? name;
 
   late String currentMoonPhase = '';
   late String currentMoonPhaseImageURL = '';
@@ -117,12 +117,10 @@ class _GardenViewState extends State<GardenView> {
         shadowColor: Theme.of(context).brightness == Brightness.dark
             ? Colors.black
             : Colors.white,
-        title: Text(
-          'meu jardim',
-          style: GoogleFonts.satisfy(
-            fontSize: 27,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
+        title: SizedBox(
+          height: 40,
+          child: Image.asset(
+            'lib/assets/logo_light.png',
           ),
         ),
       ),
@@ -136,7 +134,7 @@ class _GardenViewState extends State<GardenView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Olá, ${name}',
+                    'Olá, ${name ?? 'Usuário'}',
                     style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -188,23 +186,32 @@ class _GardenViewState extends State<GardenView> {
                     return ListView(
                       children: [
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: 20,
+                              height: 500,
+                              child: Image.asset(Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? 'lib/assets/no_plants_dark.png'
+                                  : 'lib/assets/no_plants_light.png'),
                             ),
-                            Image.asset('lib/assets/no_plants.gif'),
                             Text(
                               'Vamos começar!',
                               style: GoogleFonts.montserrat(
-                                fontSize: 25,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w600,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white
+                                    : Colors.grey,
                               ),
                             ),
                             Text(
-                              'Clique no adicionar para inlcuir um novo cultivo',
+                              'Clique no adicionar para incluir um novo cultivo',
                               style: GoogleFonts.montserrat(
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w400,
+                                color: Colors.grey,
                               ),
                             ),
                           ],
@@ -262,39 +269,84 @@ class _GardenViewState extends State<GardenView> {
                                 ),
                               ],
                             ),
-                            subtitle: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                Icon(
-                                  PhosphorIcons.calendar_blank,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  birthdayDate(plants['date']),
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Icon(
-                                  PhosphorIcons.map_pin,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(plants['location']),
-                                SizedBox(
-                                  width: 70,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      PhosphorIcons.calendar_blank,
+                                      size: 15,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      birthdayDate(plants['date']),
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Icon(
+                                      PhosphorIcons.map_pin,
+                                      size: 15,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      plants['location'],
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Visibility(
+                                      visible: plants['species'] != null,
+                                      child: Icon(PhosphorIcons.info,
+                                          size: 15,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Visibility(
+                                      visible: plants['species'] != null,
+                                      child: Text(
+                                        plants['species'],
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 Icon(
                                   PhosphorIcons.caret_right,

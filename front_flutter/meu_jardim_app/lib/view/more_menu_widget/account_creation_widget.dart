@@ -25,8 +25,9 @@ class AccountCreationWidget extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Icon(PhosphorIcons.calendar_fill,
-                      color: Theme.of(context).colorScheme.primary),
+                  Icon(
+                    PhosphorIcons.calendar,
+                  ),
                 ],
               ),
               const SizedBox(width: 15),

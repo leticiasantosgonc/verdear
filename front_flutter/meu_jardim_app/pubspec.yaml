@@ -40,7 +40,9 @@ flutter:
   assets:
     - lib/assets/logo_dark.png
     - lib/assets/logo_light.png
-    - lib/assets/logo_img.gif
-    - lib/assets/no_plants.gif
+    - lib/assets/no_plants_dark.png
+    - lib/assets/no_plants_light.png
+    - lib/assets/sem-gatos.png
+    - lib/assets/sem-cachorro.png
     
    

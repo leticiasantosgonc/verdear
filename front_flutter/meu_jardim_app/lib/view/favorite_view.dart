@@ -82,6 +82,13 @@ class _FavoriteViewState extends State<FavoriteView> {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
+                            SizedBox(
+                              height: 500,
+                              child: Image.asset(Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? 'lib/assets/no_plants_dark.png'
+                                  : 'lib/assets/no_plants_light.png'),
+                            ),
                           ],
                         )
                       ],
@@ -137,35 +144,82 @@ class _FavoriteViewState extends State<FavoriteView> {
                                 )
                               ],
                             ),
-                            subtitle: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                Icon(PhosphorIcons.calendar_blank,
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  birthdayDate(plants['date']),
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Icon(
-                                  PhosphorIcons.map_pin,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                Text(plants['location']),
-                                SizedBox(
-                                  width: 70,
+                                Row(
+                                  children: [
+                                    Icon(PhosphorIcons.calendar_blank,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        size: 15),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      birthdayDate(plants['date']),
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Icon(
+                                      PhosphorIcons.map_pin,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      size: 15,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      plants['location'],
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Visibility(
+                                      visible: plants['species'] != null,
+                                      child: Icon(PhosphorIcons.info,
+                                          size: 15,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Visibility(
+                                      visible: plants['species'] != null,
+                                      child: Text(
+                                        plants['species'],
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 Icon(
                                   PhosphorIcons.caret_right,

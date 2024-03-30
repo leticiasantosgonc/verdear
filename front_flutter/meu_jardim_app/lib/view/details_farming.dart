@@ -67,7 +67,7 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -108,11 +108,18 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                         )
                       ],
                     ),
-                    Text(
-                      widget.plantData['name'],
-                      style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                      ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          widget.plantData['name'],
+                          style: GoogleFonts.montserrat(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
                     ),
                     Visibility(
                       visible: widget.plantData['name_botanical'] != null,
@@ -123,29 +130,14 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                             fontStyle: FontStyle.italic,
                           )),
                     ),
-                    Visibility(
-                      visible: widget.plantData['description'] != null,
-                      child: Text(widget.plantData['description'],
-                          style: GoogleFonts.montserrat(
-                            fontSize: 14,
-                          )),
-                    ),
-                    Visibility(
-                        visible: widget.plantData['species'] != null,
-                        child: Text(widget.plantData['species'],
-                            style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                            ))),
                     SizedBox(
                       height: 10,
                     ),
                     Row(
                       children: [
-                        SizedBox(
-                          height: 30,
-                        ),
                         Icon(
-                          PhosphorIcons.calendar,
+                          PhosphorIcons.calendar_check,
+                          size: 15,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         SizedBox(
@@ -154,7 +146,7 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                         Text(
                           birthdayDate(widget.plantData['date']),
                           style: GoogleFonts.montserrat(
-                            fontSize: 12,
+                            fontSize: 16,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -162,13 +154,68 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                           width: 15,
                         ),
                         Icon(PhosphorIcons.map_pin,
+                            size: 15,
                             color: Theme.of(context).colorScheme.primary),
-                        Text(widget.plantData['location']),
                         SizedBox(
-                          width: 70,
+                          width: 5,
+                        ),
+                        Text(
+                          widget.plantData['location'],
+                          style: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Visibility(
+                          visible: widget.plantData['species'] != null,
+                          child: Icon(PhosphorIcons.info,
+                              size: 15,
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Visibility(
+                          visible: widget.plantData['species'] != null,
+                          child: Text(
+                            widget.plantData['species'],
+                            style: GoogleFonts.montserrat(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Visibility(
+                          visible: widget.plantData['cat_toxic'] != 'false',
+                          child: Image.asset('lib/assets/sem-gatos.png'),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Visibility(
+                          visible: widget.plantData['dog_toxic'] != 'false',
+                          child: Image.asset('lib/assets/sem-cachorro.png'),
+                        )
+                      ],
+                    ),
+                    Visibility(
+                      visible: widget.plantData['description'] != null,
+                      child: Text(widget.plantData['description'],
+                          style: GoogleFonts.montserrat(
+                            fontSize: 14,
+                          )),
+                    ),
                   ],
                 ),
               ),

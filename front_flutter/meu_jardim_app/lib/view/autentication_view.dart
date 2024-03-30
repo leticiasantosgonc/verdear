@@ -43,11 +43,9 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
       child: ListView(
         children: [
           const SizedBox(height: 50),
-          Image.asset(
-            Theme.of(context).brightness == Brightness.light
-                ? 'lib/assets/logo_dark.png'
-                : 'lib/assets/logo_light.png',
-          ),
+          Image.asset(Theme.of(context).brightness == Brightness.dark
+              ? 'lib/assets/logo_light.png'
+              : 'lib/assets/logo_dark.png'),
           const SizedBox(height: 50),
           Form(
             key: formKey,
@@ -62,7 +60,6 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
                     ),
                     controller: emailInput,
                     decoration: const InputDecoration(
-                      fillColor: Colors.red,
                       labelText: 'E-mail',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
@@ -263,7 +260,7 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
             .then(
           (String? erro) {
             if (erro != null) {
-              _showSnackErrorLogin(Get.context!);
+              _showSnackErrorLogin(Get.context!, erro);
             }
           },
         );
@@ -296,10 +293,13 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
       return 'Campo obrigatório';
     }
     if (value.length < 5) {
-      return 'Email inválido';
+      return 'Email inválido, mínimo 5 caracteres';
     }
     if (!value.contains('@')) {
-      return 'Email inválido';
+      return 'Email inválido, falta o @';
+    }
+    if (!value.contains('.')) {
+      return 'Email inválido, falta o .com';
     }
     return null;
   }
@@ -323,7 +323,7 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
       return 'Campo obrigatório';
     }
     if (value.length < 5) {
-      return 'Nome inválido';
+      return 'Nome inválido, mínimo 5 caracteres';
     }
     return null;
   }
@@ -351,14 +351,23 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
     );
   }
 
-  void _showSnackErrorLogin(BuildContext context) {
-    Get.snackbar(
-      'Não foi possível acessar o meu jardim 😢',
-      'Email ou senha inválidos',
-      snackPosition: SnackPosition.BOTTOM,
-      colorText: Colors.white,
-      backgroundColor: Colors.red,
-    );
+  void _showSnackErrorLogin(BuildContext context, String erro) {
+    if (erro == 'action=signInWithPassword') {
+      Get.snackbar(
+        'Não foi possível acessar o meu jardim 😢',
+        'Senha inválida',
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+      );
+    } else
+      Get.snackbar(
+        'Não foi possível acessar o meu jardim 😢',
+        'Email inválido',
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+      );
   }
 
   void _showSnackError(BuildContext context) {

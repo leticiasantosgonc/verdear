@@ -22,8 +22,9 @@ class VersionAppWidget extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Icon(PhosphorIcons.arrows_clockwise_fill,
-                      color: Theme.of(context).colorScheme.primary),
+                  Icon(
+                    PhosphorIcons.arrows_clockwise_fill,
+                  ),
                 ],
               ),
               const SizedBox(width: 15),

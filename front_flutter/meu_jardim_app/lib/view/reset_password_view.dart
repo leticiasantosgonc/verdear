@@ -56,13 +56,9 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
         body: ListView(
           padding: const EdgeInsets.all(25),
           children: <Widget>[
-            const SizedBox(height: 20),
-            Container(
-              height: 200,
-              child: Image.asset(
-                'lib/assets/logo_img.gif',
-              ),
-            ),
+            Image.asset(Theme.of(context).brightness == Brightness.dark
+                ? 'lib/assets/logo_light.png'
+                : 'lib/assets/logo_dark.png'),
             const SizedBox(height: 50),
             Text(
               textAlign: TextAlign.center,

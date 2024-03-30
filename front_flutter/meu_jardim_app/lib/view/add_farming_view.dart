@@ -160,6 +160,7 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                           ),
                         ),
                       ),
+                      textCapitalization: TextCapitalization.sentences,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -179,6 +180,7 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                           ),
                         ),
                       ),
+                      textCapitalization: TextCapitalization.sentences,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -200,19 +202,48 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                           ),
                         ),
                       ),
+                      textCapitalization: TextCapitalization.sentences,
                     ),
                   ),
                   const SizedBox(height: 10),
                   Container(
                     height: 60,
-                    child: TextField(
-                      controller: _speciesController,
-                      style: GoogleFonts.montserrat(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      decoration: const InputDecoration(
-                        hintText: 'Ex: Raiz, orquídea, suculenta...',
+                    child: DropdownButtonFormField<String>(
+                      value: _speciesController.text.isNotEmpty
+                          ? _speciesController.text
+                          : null,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _speciesController.text = newValue!;
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem(
+                          value: 'Planta',
+                          child: Text('Planta'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Flores',
+                          child: Text('Flores'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Hortaliças',
+                          child: Text('Hortaliças'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Temperos',
+                          child: Text('Temperos'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Chás',
+                          child: Text('Chás'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'outro',
+                          child: Text('Outro'),
+                        ),
+                      ],
+                      decoration: InputDecoration(
                         labelText: 'Espécie',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
@@ -333,19 +364,48 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                   SizedBox(height: 10),
                   Container(
                     height: 60,
-                    child: TextFormField(
+                    child: DropdownButtonFormField<String>(
+                      value: _locationController.text.isNotEmpty
+                          ? _locationController.text
+                          : null,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _locationController.text = newValue!;
+                        });
+                      },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Campo obrigatório.';
                         }
                         return null;
                       },
-                      controller: _locationController,
-                      style: GoogleFonts.montserrat(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      decoration: const InputDecoration(
+                      items: [
+                        DropdownMenuItem(
+                          value: 'Horta',
+                          child: Text('Horta'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Jardim',
+                          child: Text('Jardim'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Sala',
+                          child: Text('Sala'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Quarto',
+                          child: Text('Quarto'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Varanda',
+                          child: Text('Varanda'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Outro',
+                          child: Text('Outro'),
+                        ),
+                      ],
+                      decoration: InputDecoration(
                         hintText: 'Ex: Jardim, horta, varanda...',
                         labelText: 'Local',
                         border: OutlineInputBorder(

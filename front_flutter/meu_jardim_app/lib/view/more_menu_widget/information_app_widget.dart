@@ -18,8 +18,9 @@ class InformationAppWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(children: [
-            Icon(PhosphorIcons.info_fill,
-                color: Theme.of(context).colorScheme.primary),
+            Icon(
+              PhosphorIcons.info,
+            ),
             const SizedBox(width: 15),
             Text(
               'Informações do app',
