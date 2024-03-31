@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:meu_jardim_app/view/navigation_view.dart';
 import 'package:uuid/uuid.dart';
@@ -17,6 +21,8 @@ class AddFarmingView extends StatefulWidget {
 
 class _AddFarmingViewState extends State<AddFarmingView> {
   CollectionReference _plants = FirebaseFirestore.instance.collection('plants');
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+
   final formAddKey = GlobalKey<FormState>();
 
   TextEditingController _dateController = TextEditingController();
@@ -29,6 +35,9 @@ class _AddFarmingViewState extends State<AddFarmingView> {
   bool _isCatToxicSelected = false;
   bool _isDogToxicSelected = false;
   bool _isHumanToxicSelected = false;
+
+  String? _imageUrl;
+  XFile? _selectedImage;
 
   void _toggleCatToxic() {
     setState(() {
@@ -48,11 +57,36 @@ class _AddFarmingViewState extends State<AddFarmingView> {
     });
   }
 
-  void addPlant() {
+  void addPlant() async {
+    String downloadUrl = '';
+    String plantId = Uuid().v4();
+
     if (formAddKey.currentState!.validate()) {
+      if (_selectedImage == null ||
+          _nameController.text.isEmpty ||
+          _locationController.text.isEmpty ||
+          _dateController.text.isEmpty) {
+        Get.snackbar(
+          'Erro ao cadastrar cultivo',
+          'Por favor, preencha os dados obrigatórios. Foto, nome, local e data de plantio.',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2),
+        );
+        return;
+      }
+
+      if (_selectedImage != null) {
+        File file = File(_selectedImage!.path);
+        String ref = 'images/$plantId.jpg';
+        TaskSnapshot snapshot = await _storage.ref(ref).putFile(file);
+        downloadUrl = await snapshot.ref.getDownloadURL();
+      }
+
       _plants.add({
         'id': FirebaseAuth.instance.currentUser!.uid,
-        'id_plant': Uuid().v4(),
+        'id_plant': plantId,
         'name': _nameController.text,
         'name_botanical': _botanicalNameController.text,
         'description': _descriptionController.text,
@@ -63,6 +97,7 @@ class _AddFarmingViewState extends State<AddFarmingView> {
         'dog_toxic': _isDogToxicSelected,
         'cat_toxic': _isCatToxicSelected,
         'human_toxic': _isHumanToxicSelected,
+        'image': downloadUrl,
       });
       _nameController.clear();
       _botanicalNameController.clear();
@@ -73,15 +108,20 @@ class _AddFarmingViewState extends State<AddFarmingView> {
 
       _showToast();
       Get.offAll(() => NavegationView(), predicate: (route) => route.isFirst);
-    } else {
-      Get.snackbar(
-        'Erro ao cadastrar cultivo',
-        'Por favor, preencha todos os campos obrigatórios.',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 2),
-      );
+    }
+  }
+
+  Future<XFile?> getImage() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    return image;
+  }
+
+  void _loadSelectedImage() {
+    if (_selectedImage != null) {
+      setState(() {
+        _imageUrl = _selectedImage!.path;
+      });
     }
   }
 
@@ -121,7 +161,8 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage(''),
+                    backgroundImage:
+                        _imageUrl != null ? FileImage(File(_imageUrl!)) : null,
                   ),
                   const SizedBox(height: 10),
                   InkWell(
@@ -141,12 +182,6 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                   Container(
                     height: 60,
                     child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Campo obrigatório.';
-                        }
-                        return null;
-                      },
                       controller: _nameController,
                       style: GoogleFonts.montserrat(
                         fontSize: 12,
@@ -373,12 +408,6 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                           _locationController.text = newValue!;
                         });
                       },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Campo obrigatório.';
-                        }
-                        return null;
-                      },
                       items: [
                         DropdownMenuItem(
                           value: 'Horta',
@@ -420,12 +449,6 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                   Container(
                     height: 60,
                     child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Campo obrigatório.';
-                        }
-                        return null;
-                      },
                       controller: _dateController,
                       style: GoogleFonts.montserrat(
                         fontSize: 12,
@@ -510,38 +533,103 @@ class _AddFarmingViewState extends State<AddFarmingView> {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              InkWell(
-                onTap: () => Get.back(),
-                child: Icon(
-                  PhosphorIcons.x,
-                  color: Theme.of(context).colorScheme.outlineVariant,
-                  size: 18,
+        return Container(
+          height: 250,
+          child: Padding(
+            padding: const EdgeInsets.all(25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: () => Get.back(),
+                  child: Icon(
+                    PhosphorIcons.x,
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                    size: 18,
+                  ),
                 ),
-              ),
-              ListTile(
-                leading: Icon(PhosphorIcons.camera),
-                title: Text('Câmera'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: Icon(PhosphorIcons.image),
-                title: Text('Galeria'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              PhosphorIcons.camera,
+                              color: Colors.white,
+                              size: 50,
+                            ),
+                          ),
+                          Text(
+                            'Câmera',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              pickAndUploadImage();
+                              Get.close(1);
+                            },
+                            icon: Icon(
+                              PhosphorIcons.image,
+                              color: Colors.white,
+                              size: 50,
+                            ),
+                          ),
+                          Text(
+                            'Galeria',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },
     );
+  }
+
+  void pickAndUploadImage() async {
+    XFile? image = await getImage();
+    if (image != null) {
+      setState(() {
+        _selectedImage = image;
+        _loadSelectedImage();
+      });
+    }
   }
 }

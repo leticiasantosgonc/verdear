@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -123,6 +124,17 @@ class _FavoriteViewState extends State<FavoriteView> {
                             title: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                if (plants['image'] != null)
+                                  CachedNetworkImage(
+                                    imageUrl: plants['image'],
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    fit: BoxFit.cover,
+                                    width: 50,
+                                    height: 50,
+                                  ),
                                 Text(
                                   plants['name'],
                                   style: GoogleFonts.montserrat(
@@ -147,6 +159,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
+                                SizedBox(height: 10),
                                 Row(
                                   children: [
                                     Icon(PhosphorIcons.calendar_blank,

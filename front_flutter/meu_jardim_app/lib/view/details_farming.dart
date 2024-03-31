@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -113,22 +114,42 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                     ),
                     Row(
                       children: [
-                        Text(
-                          widget.plantData['name'],
-                          style: GoogleFonts.montserrat(
-                            fontSize: 18,
+                        if (widget.plantData['image'] != null)
+                          CachedNetworkImage(
+                            imageUrl: widget.plantData['image'],
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            fit: BoxFit.cover,
+                            width: 70,
+                            height: 70,
                           ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.plantData['name'],
+                              style: GoogleFonts.montserrat(
+                                fontSize: 18,
+                              ),
+                            ),
+                            Visibility(
+                              visible:
+                                  widget.plantData['name_botanical'] != null,
+                              child: Text(widget.plantData['name_botanical'],
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                    fontStyle: FontStyle.italic,
+                                  )),
+                            ),
+                          ],
                         ),
                       ],
-                    ),
-                    Visibility(
-                      visible: widget.plantData['name_botanical'] != null,
-                      child: Text(widget.plantData['name_botanical'],
-                          style: GoogleFonts.montserrat(
-                            fontSize: 14,
-                            color: Colors.grey,
-                            fontStyle: FontStyle.italic,
-                          )),
                     ),
                     SizedBox(
                       height: 10,
@@ -206,8 +227,18 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                         Visibility(
                           visible: widget.plantData['dog_toxic'] != 'false',
                           child: Image.asset('lib/assets/sem-cachorro.png'),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Visibility(
+                          visible: widget.plantData['human_toxic'] != 'false',
+                          child: Image.asset('lib/assets/no-eat.png'),
                         )
                       ],
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     Visibility(
                       visible: widget.plantData['description'] != null,

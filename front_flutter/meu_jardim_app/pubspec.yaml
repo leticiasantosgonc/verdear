@@ -26,6 +26,7 @@ dependencies:
   uuid: ^4.3.3
   http: ^1.2.1
   flutter_local_notifications: ^17.0.0
+  cached_network_image: ^3.3.1
 
 
 dev_dependencies:
@@ -44,5 +45,6 @@ flutter:
     - lib/assets/no_plants_light.png
     - lib/assets/sem-gatos.png
     - lib/assets/sem-cachorro.png
+    - lib/assets/no-eat.png
     
    

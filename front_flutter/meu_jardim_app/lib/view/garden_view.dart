@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -248,6 +249,17 @@ class _GardenViewState extends State<GardenView> {
                             title: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                if (plants['image'] != null)
+                                  CachedNetworkImage(
+                                    imageUrl: plants['image'],
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    fit: BoxFit.cover,
+                                    width: 50,
+                                    height: 50,
+                                  ),
                                 Text(
                                   plants['name'],
                                   style: GoogleFonts.montserrat(
@@ -272,6 +284,9 @@ class _GardenViewState extends State<GardenView> {
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -322,7 +337,8 @@ class _GardenViewState extends State<GardenView> {
                                       width: 15,
                                     ),
                                     Visibility(
-                                      visible: plants['species'] != null,
+                                      visible: plants['species'] != null &&
+                                          plants['species'] != '',
                                       child: Icon(PhosphorIcons.info,
                                           size: 15,
                                           color: Theme.of(context)
