@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meu_jardim_app/view/edit_farming_view.dart';
 import 'package:meu_jardim_app/view/navigation_view.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class DetailsFarmingView extends StatefulWidget {
   final Map<String, dynamic> plantData;
@@ -23,11 +22,57 @@ class DetailsFarmingView extends StatefulWidget {
 
 class _DetailsFarmingViewState extends State<DetailsFarmingView> {
   bool isFavorite = false;
+  List<Widget> actionCards = [];
 
   @override
   void initState() {
     super.initState();
     isFavorite = widget.plantData['favorite'] ?? false;
+    _loadPlantActions(widget.plantDocumentId);
+  }
+
+  Future<void> _loadPlantActions(String plantId) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('actions')
+          .where('plantId', isEqualTo: plantId)
+          .get();
+
+      setState(() {
+        actionCards = querySnapshot.docs.map((doc) {
+          return Card(
+            key: Key(doc.id),
+            child: ListTile(
+              title: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${doc['action']} em ${doc['date']}',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => _showDialogDeleteNote(doc.id),
+                    child: Icon(
+                      PhosphorIcons.trash_simple,
+                      size: 20,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }).toList();
+      });
+
+      print('Ações recuperadas do Firestore');
+    } catch (error) {
+      print('Erro ao recuperar ações: $error');
+    }
   }
 
   @override
@@ -257,16 +302,83 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                 ),
               ),
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              FloatingActionButton(
-                onPressed: () {},
-                child: Icon(
-                  PhosphorIcons.plus,
-                ),
-              )
-            ]),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: actionCards,
+            ),
           ],
         ),
+      ),
+      floatingActionButton: SpeedDial(
+        icon: Icons.add,
+        activeIcon: Icons.close,
+        spacing: 5,
+        spaceBetweenChildren: 5,
+        activeBackgroundColor: Theme.of(context).colorScheme.primary,
+        children: [
+          SpeedDialChild(
+            child: Icon(
+              PhosphorIcons.drop,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.blue,
+            label: 'Rega',
+            onTap: () {
+              addActionCard('Rega', _getCurrentDate(), null);
+            },
+          ),
+          SpeedDialChild(
+            child: Icon(
+              PhosphorIcons.scissors,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.orange,
+            label: 'Poda',
+            onTap: () {
+              addActionCard('Poda', _getCurrentDate(), null);
+            },
+          ),
+          SpeedDialChild(
+            child: Icon(
+              PhosphorIcons.notepad,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.purple[200],
+            label: 'Nota',
+            onTap: () {},
+          ),
+          SpeedDialChild(
+            child: Icon(
+              Icons.agriculture,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.green,
+            label: 'Fertilização',
+            onTap: () {},
+          ),
+          SpeedDialChild(
+            child: Icon(
+              PhosphorIcons.drop_half_bottom_thin,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.blueAccent,
+            label: 'Humidificação',
+            onTap: () {
+              addActionCard('Humidificação', _getCurrentDate(), null);
+            },
+          ),
+          SpeedDialChild(
+            child: Icon(
+              PhosphorIcons.flower_thin,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.brown,
+            label: 'Criação de mudas',
+            onTap: () {
+              addActionCard('Mudas', _getCurrentDate(), null);
+            },
+          ),
+        ],
       ),
     );
   }
@@ -443,5 +555,187 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
         ),
       ),
     );
+  }
+
+  Future _showDialogDeleteNote(String actionDocumentId) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: 300,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.background,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              InkWell(
+                onTap: () => Get.back(),
+                child: Icon(
+                  PhosphorIcons.x,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  size: 18,
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 8),
+                  Icon(
+                    PhosphorIcons.trash,
+                    size: 50,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    'Excluir ação?',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    'Deseja prosseguir com a exclusão da ação?',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 160,
+                        child: TextButton(
+                          onPressed: () => Get.back(),
+                          style: TextButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
+                            side: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            padding: const EdgeInsets.all(15),
+                          ),
+                          child: Text(
+                            textAlign: TextAlign.start,
+                            'CANCELAR',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      SizedBox(
+                        width: 160,
+                        child: TextButton(
+                          onPressed: () {
+                            _deleteAction(actionDocumentId);
+                            Get.close(1);
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            padding: const EdgeInsets.all(15),
+                          ),
+                          child: Text(
+                            textAlign: TextAlign.start,
+                            'EXCLUIR',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void addActionCard(String action, String date, String? actionDocumentId) {
+    String plantId = widget.plantDocumentId;
+
+    FirebaseFirestore.instance.collection('actions').add({
+      'action': action,
+      'date': date,
+      'plantId': plantId,
+    }).then((DocumentReference document) {
+      setState(() {
+        actionCards.add(
+          Card(
+            key: Key(document.id),
+            child: ListTile(
+              title: Row(
+                children: [
+                  Text('$action em $date',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      )),
+                  Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      _showDialogDeleteNote(document.id);
+                    },
+                    child: Icon(
+                      PhosphorIcons.trash_simple,
+                      size: 20,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      });
+      print('Ação adicionada ao Firestore');
+    }).catchError((error) {
+      print('Erro ao adicionar ação: $error');
+    });
+  }
+
+  void _deleteAction(String actionDocumentId) {
+    FirebaseFirestore.instance
+        .collection('actions')
+        .doc(actionDocumentId)
+        .delete()
+        .then((_) {
+      setState(() {
+        actionCards.removeWhere((card) => card.key == Key(actionDocumentId));
+      });
+      print('Ação deletada do Firestore');
+    }).catchError((error) {
+      print('Erro ao deletar ação: $error');
+    });
+  }
+
+  String _getCurrentDate() {
+    return '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
   }
 }
