@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meu_jardim_app/view/edit_farming_view.dart';
 import 'package:meu_jardim_app/view/navigation_view.dart';
 
 class DetailsFarmingView extends StatefulWidget {
@@ -91,9 +92,14 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                         SizedBox(
                           width: 20,
                         ),
-                        Icon(
-                          PhosphorIcons.pencil_fill,
-                          size: 20,
+                        InkWell(
+                          onTap: () => Get.to(() => EditFarmingView(
+                                plantId: widget.plantData['id_doc'],
+                              )),
+                          child: Icon(
+                            PhosphorIcons.pencil_fill,
+                            size: 20,
+                          ),
                         ),
                         SizedBox(
                           width: 20,
@@ -218,21 +224,21 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Visibility(
-                          visible: widget.plantData['cat_toxic'] != 'false',
+                          visible: widget.plantData['cat_toxic'] ?? 'false',
                           child: Image.asset('lib/assets/sem-gatos.png'),
                         ),
                         SizedBox(
                           width: 5,
                         ),
                         Visibility(
-                          visible: widget.plantData['dog_toxic'] != 'false',
+                          visible: widget.plantData['dog_toxic'] ?? 'false',
                           child: Image.asset('lib/assets/sem-cachorro.png'),
                         ),
                         SizedBox(
                           width: 5,
                         ),
                         Visibility(
-                          visible: widget.plantData['human_toxic'] != 'false',
+                          visible: widget.plantData['human_toxic'] ?? 'false',
                           child: Image.asset('lib/assets/no-eat.png'),
                         )
                       ],
@@ -251,6 +257,14 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                 ),
               ),
             ),
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              FloatingActionButton(
+                onPressed: () {},
+                child: Icon(
+                  PhosphorIcons.plus,
+                ),
+              )
+            ]),
           ],
         ),
       ),

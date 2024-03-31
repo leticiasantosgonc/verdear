@@ -84,7 +84,8 @@ class _AddFarmingViewState extends State<AddFarmingView> {
         downloadUrl = await snapshot.ref.getDownloadURL();
       }
 
-      _plants.add({
+      DocumentReference ref = await _plants.add({
+        'id_doc': '',
         'id': FirebaseAuth.instance.currentUser!.uid,
         'id_plant': plantId,
         'name': _nameController.text,
@@ -99,6 +100,8 @@ class _AddFarmingViewState extends State<AddFarmingView> {
         'human_toxic': _isHumanToxicSelected,
         'image': downloadUrl,
       });
+      String docId = ref.id;
+      await _plants.doc(docId).update({'id_doc': docId});
       _nameController.clear();
       _botanicalNameController.clear();
       _descriptionController.clear();

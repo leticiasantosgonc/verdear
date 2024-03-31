@@ -28,6 +28,9 @@ class _GardenViewState extends State<GardenView> {
   late String currentMoonPhase = '';
   late String currentMoonPhaseImageURL = '';
 
+  TextEditingController searchController = TextEditingController();
+  String searchText = '';
+
   @override
   void initState() {
     super.initState();
@@ -165,6 +168,24 @@ class _GardenViewState extends State<GardenView> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                labelText: 'Pesquisar',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  searchText = value.toLowerCase();
+                });
+              },
+            ),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -218,6 +239,21 @@ class _GardenViewState extends State<GardenView> {
                           ],
                         ),
                       ],
+                    );
+                  }
+                  var filteredPlants = snapshot.data!.docs.where((plant) {
+                    String plantName = (plant['name'] ?? '').toLowerCase();
+                    return plantName.contains(searchText);
+                  }).toList();
+
+                  // Se o campo de pesquisa estiver vazio, exibir todos os itens
+                  if (searchText.isEmpty) {
+                    filteredPlants = snapshot.data!.docs;
+                  }
+
+                  if (filteredPlants.isEmpty) {
+                    return Center(
+                      child: Text('Nenhuma planta encontrada'),
                     );
                   }
                   return ListView.builder(
