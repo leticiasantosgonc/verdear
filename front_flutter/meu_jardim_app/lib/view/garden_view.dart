@@ -31,13 +31,25 @@ class _GardenViewState extends State<GardenView> {
   TextEditingController searchController = TextEditingController();
   String searchText = '';
 
+  List<dynamic> allPlants = [];
+  List<dynamic> filteredPlants = [];
+
   @override
   void initState() {
     super.initState();
     _currentUserID = AutenticationService()
         .getCurrentUserID(); // pega id do usuário logado no momento
     name = FirebaseAuth.instance.currentUser!.displayName.toString();
+    fetchPlants();
     fetchMoonPhase();
+  }
+
+  Future<void> fetchPlants() async {
+    final snapshot = await _plants.where('id', isEqualTo: _currentUserID).get();
+    setState(() {
+      allPlants = snapshot.docs;
+      filteredPlants = allPlants.toList();
+    });
   }
 
   Future<void> fetchMoonPhase() async {
@@ -182,6 +194,11 @@ class _GardenViewState extends State<GardenView> {
               onChanged: (value) {
                 setState(() {
                   searchText = value.toLowerCase();
+                  if (searchText.isNotEmpty) {
+                    filterPlants();
+                  } else {
+                    filteredPlants = allPlants.toList();
+                  }
                 });
               },
             ),
@@ -241,25 +258,11 @@ class _GardenViewState extends State<GardenView> {
                       ],
                     );
                   }
-                  var filteredPlants = snapshot.data!.docs.where((plant) {
-                    String plantName = (plant['name'] ?? '').toLowerCase();
-                    return plantName.contains(searchText);
-                  }).toList();
 
-                  // Se o campo de pesquisa estiver vazio, exibir todos os itens
-                  if (searchText.isEmpty) {
-                    filteredPlants = snapshot.data!.docs;
-                  }
-
-                  if (filteredPlants.isEmpty) {
-                    return Center(
-                      child: Text('Nenhuma planta encontrada'),
-                    );
-                  }
                   return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: filteredPlants.length,
                     itemBuilder: (context, index) {
-                      var plants = snapshot.data!.docs[index];
+                      var plants = filteredPlants[index];
                       return InkWell(
                         onTap: () {
                           Navigator.push(
@@ -517,5 +520,14 @@ class _GardenViewState extends State<GardenView> {
       return 'Hoje';
     else
       return diasRestantes.toString();
+  }
+
+  void filterPlants() {
+    setState(() {
+      filteredPlants = allPlants.where((plant) {
+        String plantName = (plant['name'] ?? '').toLowerCase();
+        return plantName.contains(searchText);
+      }).toList(); // Filtra as plantas com base no texto da barra de pesquisa
+    });
   }
 }

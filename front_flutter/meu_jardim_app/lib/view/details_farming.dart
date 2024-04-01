@@ -46,12 +46,26 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
               title: Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      '${doc['action']} em ${doc['date']}',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${doc['action']} em ${doc['date']}',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        if (doc['additionalInfo'] != null)
+                          Text(
+                            '${doc['additionalInfo']}',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                      ],
                     ),
                   ),
                   GestureDetector(
@@ -310,10 +324,11 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
         ),
       ),
       floatingActionButton: SpeedDial(
-        icon: Icons.add,
-        activeIcon: Icons.close,
+        icon: PhosphorIcons.plus_fill,
+        activeIcon: PhosphorIcons.x,
         spacing: 5,
         spaceBetweenChildren: 5,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         activeBackgroundColor: Theme.of(context).colorScheme.primary,
         children: [
           SpeedDialChild(
@@ -339,23 +354,29 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
             },
           ),
           SpeedDialChild(
-            child: Icon(
-              PhosphorIcons.notepad,
-              color: Colors.white,
-            ),
-            backgroundColor: Colors.purple[200],
-            label: 'Nota',
-            onTap: () {},
-          ),
+              child: Icon(
+                PhosphorIcons.notepad,
+                color: Colors.white,
+              ),
+              backgroundColor: Colors.purple[200],
+              label: 'Nota',
+              onTap: () {
+                _showInputDialog('Nota', (String note) {
+                  addActionCard('Nota', _getCurrentDate(), note);
+                });
+              }),
           SpeedDialChild(
-            child: Icon(
-              Icons.agriculture,
-              color: Colors.white,
-            ),
-            backgroundColor: Colors.green,
-            label: 'Fertilização',
-            onTap: () {},
-          ),
+              child: Icon(
+                Icons.agriculture,
+                color: Colors.white,
+              ),
+              backgroundColor: Colors.green,
+              label: 'Fertilização',
+              onTap: () {
+                _showInputDialog('Fertilização', (String details) {
+                  addActionCard('Fertilização', _getCurrentDate(), details);
+                });
+              }),
           SpeedDialChild(
             child: Icon(
               PhosphorIcons.drop_half_bottom_thin,
@@ -677,12 +698,51 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
     );
   }
 
-  void addActionCard(String action, String date, String? actionDocumentId) {
+  Future<void> _showInputDialog(
+      String title, Function(String) onConfirm) async {
+    TextEditingController _textFieldController = TextEditingController();
+
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: TextField(
+            controller: _textFieldController,
+            decoration: InputDecoration(
+              labelText: 'Detalhes',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('CANCELAR'),
+            ),
+            TextButton(
+              onPressed: () {
+                onConfirm(_textFieldController.text);
+                Navigator.of(context).pop();
+              },
+              child: Text('CONFIRMAR'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void addActionCard(String action, String date, String? additionalInfo) {
     String plantId = widget.plantDocumentId;
 
     FirebaseFirestore.instance.collection('actions').add({
       'action': action,
       'date': date,
+      'additionalInfo': additionalInfo,
       'plantId': plantId,
     }).then((DocumentReference document) {
       setState(() {
@@ -692,11 +752,29 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
             child: ListTile(
               title: Row(
                 children: [
-                  Text('$action em $date',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      )),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$action em $date',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      if (additionalInfo !=
+                          null) // Verifica se há informação adicional
+                        Text(
+                          '$additionalInfo',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                    ],
+                  ),
                   Spacer(),
                   GestureDetector(
                     onTap: () {

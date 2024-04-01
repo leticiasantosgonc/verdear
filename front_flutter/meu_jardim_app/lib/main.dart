@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:meu_jardim_app/utils/push_notifications.dart';
 import 'package:meu_jardim_app/view/navigation_view.dart';
 import 'package:meu_jardim_app/utils/color_schemes.g.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,6 +15,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await PushNotifications().initNotifications();
+
   runApp(const MyApp());
 }
 
