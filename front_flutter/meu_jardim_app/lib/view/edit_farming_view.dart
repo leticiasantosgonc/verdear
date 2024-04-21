@@ -553,8 +553,8 @@ class _EditFarmingViewState extends State<EditFarmingView> {
     DateTime? pickDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
     );
 
     if (pickDate != null)

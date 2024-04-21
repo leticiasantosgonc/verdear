@@ -352,22 +352,13 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
   }
 
   void _showSnackErrorLogin(BuildContext context, String erro) {
-    if (erro == 'action=signInWithPassword') {
-      Get.snackbar(
-        'Não foi possível acessar o meu jardim 😢',
-        'Senha inválida',
-        snackPosition: SnackPosition.BOTTOM,
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-      );
-    } else
-      Get.snackbar(
-        'Não foi possível acessar o meu jardim 😢',
-        'Email inválido',
-        snackPosition: SnackPosition.BOTTOM,
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-      );
+    Get.snackbar(
+      'Não foi possível acessar o meu jardim 😢',
+      'Email ou senha inválidos',
+      snackPosition: SnackPosition.BOTTOM,
+      colorText: Colors.white,
+      backgroundColor: Colors.red,
+    );
   }
 
   void _showSnackError(BuildContext context) {

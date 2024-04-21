@@ -256,7 +256,7 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
                           width: 15,
                         ),
                         Visibility(
-                          visible: widget.plantData['species'] != null,
+                          visible: widget.plantData['species'] != '',
                           child: Icon(PhosphorIcons.info,
                               size: 15,
                               color: Theme.of(context).colorScheme.primary),
@@ -325,6 +325,7 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
       ),
       floatingActionButton: SpeedDial(
         icon: PhosphorIcons.plus_fill,
+        iconTheme: IconThemeData(color: Colors.white),
         activeIcon: PhosphorIcons.x,
         spacing: 5,
         spaceBetweenChildren: 5,

@@ -38,6 +38,7 @@ class _AddFarmingViewState extends State<AddFarmingView> {
 
   String? _imageUrl;
   XFile? _selectedImage;
+  bool _isLoading = false;
 
   void _toggleCatToxic() {
     setState(() {
@@ -62,6 +63,9 @@ class _AddFarmingViewState extends State<AddFarmingView> {
     String plantId = Uuid().v4();
 
     if (formAddKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
       if (_selectedImage == null ||
           _nameController.text.isEmpty ||
           _locationController.text.isEmpty ||
@@ -74,6 +78,9 @@ class _AddFarmingViewState extends State<AddFarmingView> {
           snackPosition: SnackPosition.BOTTOM,
           duration: const Duration(seconds: 2),
         );
+        setState(() {
+          _isLoading = false;
+        });
         return;
       }
 
@@ -111,6 +118,9 @@ class _AddFarmingViewState extends State<AddFarmingView> {
 
       _showToast();
       Get.offAll(() => NavegationView(), predicate: (route) => route.isFirst);
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -468,7 +478,7 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                       ),
                       readOnly: true,
                       onTap: () {
-                        _selectedDate();
+                        if (!_isLoading) _selectedDate();
                       },
                     ),
                   ),
@@ -476,25 +486,30 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                   SizedBox(
                     width: 380,
                     child: ElevatedButton(
-                      onPressed: () {
-                        addPlant();
-                      },
+                      onPressed: _isLoading ? null : () => addPlant(),
                       style: TextButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        backgroundColor: _isLoading
+                            ? Colors.grey
+                            : Theme.of(context).colorScheme.primary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
                         padding: const EdgeInsets.all(15),
                       ),
-                      child: Text(
-                        textAlign: TextAlign.start,
-                        'SALVAR',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
+                      child: _isLoading
+                          ? CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            )
+                          : Text(
+                              textAlign: TextAlign.start,
+                              'SALVAR',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
                     ),
                   ),
                 ],
@@ -523,8 +538,8 @@ class _AddFarmingViewState extends State<AddFarmingView> {
     DateTime? pickDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
     );
 
     if (pickDate != null)
