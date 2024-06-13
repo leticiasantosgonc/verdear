@@ -124,9 +124,15 @@ class _AddFarmingViewState extends State<AddFarmingView> {
     }
   }
 
-  Future<XFile?> getImage() async {
+  Future<XFile?> getImageGallery() async {
     final ImagePicker _picker = ImagePicker();
     XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    return image;
+  }
+
+  Future<XFile?> getImageCamera() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.camera);
     return image;
   }
 
@@ -581,7 +587,10 @@ class _AddFarmingViewState extends State<AddFarmingView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              pickImageCamera();
+                              Get.close(1);
+                            },
                             icon: Icon(
                               PhosphorIcons.camera,
                               color: Colors.white,
@@ -642,7 +651,17 @@ class _AddFarmingViewState extends State<AddFarmingView> {
   }
 
   void pickAndUploadImage() async {
-    XFile? image = await getImage();
+    XFile? image = await getImageGallery();
+    if (image != null) {
+      setState(() {
+        _selectedImage = image;
+        _loadSelectedImage();
+      });
+    }
+  }
+
+  void pickImageCamera() async {
+    XFile? image = await getImageCamera();
     if (image != null) {
       setState(() {
         _selectedImage = image;
