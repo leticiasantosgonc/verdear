@@ -44,6 +44,12 @@ class _GardenViewState extends State<GardenView> {
     fetchMoonPhase();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchPlants();
+  }
+
   Future<void> fetchPlants() async {
     final snapshot = await _plants.where('id', isEqualTo: _currentUserID).get();
     setState(() {
@@ -274,7 +280,7 @@ class _GardenViewState extends State<GardenView> {
                                 plantDocumentId: snapshot.data!.docs[index].id,
                               ),
                             ),
-                          );
+                          ).then((_) => fetchPlants());
                         },
                         child: Card(
                           color: Theme.of(context).brightness == Brightness.dark
