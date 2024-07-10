@@ -89,7 +89,7 @@ Future _showInfoApp(context) {
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  'O meu jardim é um aplicativo para auxiliar na rotina das suas plantinhas. Aqui você consegue armazenar informações necessárias sobre cada cultivo.',
+                  'O verdear é um aplicativo para auxiliar na rotina das suas plantinhas. Aqui você consegue armazenar informações necessárias sobre cada cultivo.',
                   style: GoogleFonts.montserrat(
                     fontSize: 14,
                   ),

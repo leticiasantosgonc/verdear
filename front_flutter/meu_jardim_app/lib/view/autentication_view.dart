@@ -322,8 +322,8 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
     if (value.isEmpty) {
       return 'Campo obrigatório';
     }
-    if (value.length < 5) {
-      return 'Nome inválido, mínimo 5 caracteres';
+    if (value.length < 3) {
+      return 'Nome inválido, mínimo 3 caracteres';
     }
     return null;
   }
@@ -343,7 +343,7 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
 
   void _showSnackSucess(BuildContext context) {
     Get.snackbar(
-      'Bem vindo(a) ao meu jardim!',
+      'Bem vindo(a) ao !',
       'Agora você pode acompanhar o crescimento dos seus cultivos. 🌱',
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.green,
@@ -353,7 +353,7 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
 
   void _showSnackErrorLogin(BuildContext context, String erro) {
     Get.snackbar(
-      'Não foi possível acessar o meu jardim 😢',
+      'Não foi possível acessar o verdear 😢',
       'Email ou senha inválidos',
       snackPosition: SnackPosition.BOTTOM,
       colorText: Colors.white,
@@ -363,7 +363,7 @@ class _AutenticationWidgetState extends State<AutenticationWidget> {
 
   void _showSnackError(BuildContext context) {
     Get.snackbar(
-      'Não foi possível acessar o meu jardim 😢',
+      'Não foi possível acessar o verdear 😢',
       'Email já cadastrado',
       snackPosition: SnackPosition.BOTTOM,
       colorText: Colors.white,

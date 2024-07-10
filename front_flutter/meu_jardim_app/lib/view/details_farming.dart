@@ -384,9 +384,9 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
               color: Colors.white,
             ),
             backgroundColor: Colors.blueAccent,
-            label: 'Humidificação',
+            label: 'Umidificação',
             onTap: () {
-              addActionCard('Humidificação', _getCurrentDate(), null);
+              addActionCard('Umidificação', _getCurrentDate(), null);
             },
           ),
           SpeedDialChild(
@@ -452,7 +452,7 @@ class _DetailsFarmingViewState extends State<DetailsFarmingView> {
 
   void _showSnackSucess(BuildContext context) {
     Get.snackbar(
-      'Cultivo deletado do meu jardim!',
+      'Cultivo deletado do verdear!',
       'Não deixe de adicionar novos cultivos. 🌱',
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.blue[200],
