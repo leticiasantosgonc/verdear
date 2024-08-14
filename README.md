@@ -1,6 +1,6 @@
-# <p align="center"> meu jardim 🌱</p> 
+# <p align="center"> Verdear 🌱</p> 
 
-<p align="center">🚨 em desenvolvimento 🚨</p>
+<p align="center">🚨 Aplicativo desenvolvido para o trabalho de conclusão do curso de Análise e Desenvolvimento de Sistemas - IFRS 🚨</p>
 
 **Pré-requisitos**<br>
 As seguintes ferramentas foram usadas na construção do projeto:
